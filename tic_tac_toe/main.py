@@ -47,6 +47,7 @@ def check_winner(board) -> bool:
         return True
     elif board['3,1'] == board['3,2'] == board['3,3'] and board['3,1'] is not None:
         return True
+    
     # Check columns
     elif board['1,1'] == board['2,1'] == board['3,1'] and board['1,1'] is not None:
         return True
@@ -54,6 +55,7 @@ def check_winner(board) -> bool:
         return True
     elif board['1,3'] == board['2,3'] == board['3,3'] and board['1,3'] is not None:
         return True
+
     # Check diagonals
     elif board['1,1'] == board['2,2'] == board['3,3'] and board['1,1'] is not None:
         return True
