@@ -9,7 +9,7 @@ def compute_change(cost, paid):
     change_in_cents : float = round((paid - cost) * 100)
     coin_breakdown : dict = {}
     dollars : float = change_in_cents // 100
-    result: list = []
+    result : list = []
 
     if dollars > 0:
         coin_breakdown["dollars"] = dollars
