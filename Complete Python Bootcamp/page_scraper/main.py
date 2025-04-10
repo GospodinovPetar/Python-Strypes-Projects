@@ -10,8 +10,9 @@ def link_finder(beautiful_soup):
     links = []
 
     for link in beautiful_soup.find_all('a', href=True):  # href=True ensures that we only get valid links
-        if link['href'].startswith('http') or link['href'].startswith('https'):
-            links.append(link['href'])
+        l = link['href']
+        if l.startswith('http') or l.startswith('https'):
+            links.append(l)
 
     return f"Links found:' '\n' {'\n'.join(links)}"
 
