@@ -24,6 +24,8 @@ This function accepts a BeautifulSoup object and finds all the valid links on th
 3. It parses the webpage using BeautifulSoup to extract the links.
 4. It prints the valid links found on the page.
 
+## Example
+
 ```bash
 Enter URL: https://commons.wikimedia.org/wiki/Main_Page
 Links found:
