@@ -30,6 +30,8 @@ This function prompts the current player to enter their move (either 'X' or 'O')
 3. The `move_checker()` function ensures the move is valid (i.e., the cell is unoccupied and within the board).
 4. After each valid move, the board is printed
 
+## Example
+
 ```bash
 O enters a move: 1,1
 O |   |  
