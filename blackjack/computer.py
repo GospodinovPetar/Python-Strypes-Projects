@@ -1,6 +1,6 @@
 class Computer:
     def __init__(self, points : int = 0):
-        #Computer points
+        #Computers points
         self.points : int = points
-        #Computer hand
+        #Computers hand
         self.hand : list = []
