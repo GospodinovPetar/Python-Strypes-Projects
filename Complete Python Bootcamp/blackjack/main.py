@@ -138,11 +138,11 @@ while GAME_RUNNING:
         break
 
     # Ask for player's decision: hit or stand (case-insensitive)
-    player_choice : str = input('Player chooses to "stand" or "hit": ').strip().lower()
+    player_choice : str = input('Player chooses to "stand", "hit", "exit": ').strip().lower()
 
-    while player_choice not in ('stand', 'hit'):
-        print("Invalid input. Please choose 'stand' or 'hit'.")
-        player_choice : str = input('Player chooses to "stand" or "hit": ').strip().lower()
+    while player_choice not in ('stand', 'hit', 'exit'):
+        print("Invalid input. Please choose 'stand', 'hit' or 'exit'.")
+        player_choice : str = input('Player chooses to "stand", "hit" or "exit": ').strip().lower()
 
     if player_choice == 'stand':
         deal_card(computer, "Computer")
@@ -152,3 +152,6 @@ while GAME_RUNNING:
         deal_card(player, "Player")
         deal_card(computer, "Computer")
 
+    elif player_choice == 'exit':
+        GAME_RUNNING = False
+        break

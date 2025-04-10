@@ -29,3 +29,36 @@ This function prompts the current player to enter their move (either 'X' or 'O')
 2. The `get_move()` function asks the current player to enter their move in the format of row and column (e.g., "1,1" for the top-left corner).
 3. The `move_checker()` function ensures the move is valid (i.e., the cell is unoccupied and within the board).
 4. After each valid move, the board is printed
+
+```bash
+O enters a move: 1,1
+O |   |  
+---------
+  |   |  
+---------
+  |   |  
+X enters a move: 2,2
+O |   |  
+---------
+  | X |  
+---------
+  |   |  
+O enters a move: 1,2
+O | O |  
+---------
+  | X |  
+---------
+  |   |  
+X enters a move: 2,3
+O | O |  
+---------
+  | X | X
+---------
+  |   |  
+O enters a move: 1,3
+O | O | O
+---------
+  | X | X
+---------
+  |   |  
+O wins!
