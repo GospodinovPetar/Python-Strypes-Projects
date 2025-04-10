@@ -16,7 +16,7 @@ def link_finder(beautiful_soup):
 
 
     if len(links) == 0:
-        return 'No links found or webpage is inaccessible.'
+        return 'No links found or webpage is inaccessible.f'
     else:
         return f"Links found:' '\n' {'\n'.join(links)}"
 
