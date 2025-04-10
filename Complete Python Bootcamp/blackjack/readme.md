@@ -37,6 +37,7 @@ This function checks the points of both players and determines the winner or if 
 3. **Game Loop**: The player chooses to "hit" (draw another card) or "stand" (keep their current hand). The computer automatically draws cards based on the game rules.
 4. **Outcome**: The winner is determined based on the points of the player and the computer, with money being adjusted accordingly.
 
+## Example
 
 ```bash
 Enter the total amount you want to play with: 1000
