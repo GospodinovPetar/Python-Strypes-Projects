@@ -8,7 +8,7 @@ def link_finder(beautiful_soup):
     This function finds all the links in the given webpage.
     """
     links = []
-    
+
     for link in beautiful_soup.find_all('a', href=True):  # href=True ensures that we only get valid links
         if link['href'].startswith('http') or link['href'].startswith('https'):
             links.append(link['href'])
