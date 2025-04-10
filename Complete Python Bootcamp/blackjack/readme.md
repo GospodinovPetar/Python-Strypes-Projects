@@ -38,3 +38,21 @@ This function checks the points of both players and determines the winner or if 
 4. **Outcome**: The winner is determined based on the points of the player and the computer, with money being adjusted accordingly.
 
 
+```bash
+Enter the total amount you want to play with: 1000
+Enter the betting amount of the player: 500
+Player got J! Points: 10
+Computer got 3! Points: 3
+Player chooses to "stand", "hit", "exit": hit
+Player got J! Points: 20
+Computer got 9! Points: 12
+Player chooses to "stand", "hit", "exit": stand
+Computer got 4! Points: 16
+Player points: 20
+Player chooses to "stand", "hit", "exit": stand
+Computer got 8! Points: 24
+Player points: 20
+Computer loses! Points exceeded 21.
+Players money: 2000
+Points and hands have been reset!
+Player chooses to "stand", "hit", "exit": exit
