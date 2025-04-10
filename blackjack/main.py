@@ -67,30 +67,41 @@ def game_outcome(betting_amount) -> None:
     This function is used to determine if the computer has won or lost.
     This is based on the points of the players
     """
-    if player.points > 21 and computer.points > 21:
-        print("It's a draw")
-        reset_points(computer, player)
 
-    elif player.points > 21:
-        print("Player loses! Points exceeded 21.")
+    outcomes = {
+        (True, True): "It's a draw",  # Both bust
+        (True, False): "Player loses! Points exceeded 21.",  # Player busts
+        (False, True): "Computer loses! Points exceeded 21.",  # Computer busts
+        (False, False, True): "Player wins! Points equal 21.",  # Player wins with 21
+        (False, False, False): "Computer wins! Points equal 21."  # Computer wins with 21
+    }
+
+    # Check for game conditions
+    player_bust = player.points > 21
+    computer_bust = computer.points > 21
+    player_21 = player.points == 21
+    computer_21 = computer.points == 21
+
+    if player_bust and computer_bust:
+        print(outcomes[(True, True)])
+        reset_points(computer, player)
+    elif player_bust:
+        print(outcomes[(True, False)])
         player.total_amount -= betting_amount
         print(f"Player's money: {player.total_amount}")
         reset_points(computer, player)
-
-    elif computer.points > 21:
-        print("Computer loses! Points exceeded 21.")
+    elif computer_bust:
+        print(outcomes[(False, True)])
         player.total_amount += betting_amount * 2
         print(f"Player's money: {player.total_amount}")
         reset_points(computer, player)
-
-    elif player.points == 21:
-        print("Player wins! Points equal 21.")
+    elif player_21:
+        print(outcomes[(False, False, True)])
         player.total_amount += betting_amount * 3
         print(f"Player's money: {player.total_amount}")
         reset_points(computer, player)
-
-    elif computer.points == 21:
-        print("Computer wins! Points equal 21.")
+    elif computer_21:
+        print(outcomes[(False, False, False)])
         player.total_amount -= betting_amount
         print(f"Player's money: {player.total_amount}")
         reset_points(computer, player)
