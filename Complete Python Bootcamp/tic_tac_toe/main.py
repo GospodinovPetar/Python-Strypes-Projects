@@ -52,7 +52,7 @@ def move_checker() -> None:
             move = get_move()
             move_checker()
 
-def check_winner(board) -> bool:
+def check_winner(board : dict) -> bool:
     """
     Checks the board for a winning combination.
 
