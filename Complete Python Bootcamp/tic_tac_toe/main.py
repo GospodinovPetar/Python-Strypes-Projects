@@ -2,9 +2,17 @@ GAME_RUNNING : bool = True
 counter : int = 0
 
 def print_board() -> None:
-    """"
-    Function print_board is used for printing the playing board.
     """
+    Prints the current state of the playing board.
+
+    The board is represented as a dictionary with keys for each cell (e.g., '1,1').
+    For each row (1 to 3), the function prints the cell values separated by vertical bars.
+    Empty cells (with a value of None) are represented by a blank space.
+
+    Returns:
+       None
+    """
+
     global board
     for row in range(1, 4):
         print(f"{board[f'{row},1'] or ' '} | {board[f'{row},2'] or ' '} | {board[f'{row},3'] or ' '}")
@@ -14,10 +22,18 @@ def print_board() -> None:
 
 def move_checker() -> None:
     """"
-    Move checker function is used for populating the playing board with either X or O.
-    We use the global counter which tells us which player (X, O) is answering the console query.
-    We use recursion when the input is incorrect.
+    Processes the current move and updates the board with either 'X' or 'O'.
+
+    The function checks whether the global move (a string representing the chosen cell)
+    is valid (i.e., it exists in the board and the cell is empty). Based on the global counter,
+    it assigns 'O' when the counter is even and 'X' when the counter is odd.
+    If the move is invalid or the cell is already occupied, it prompts the user for a new move
+    and calls itself recursively until a valid move is made.
+
+    Returns:
+       None
     """
+
     global counter
     global move
     if move in board and board[move] is None:
@@ -37,9 +53,20 @@ def move_checker() -> None:
             move_checker()
 
 def check_winner(board) -> bool:
-    """"
-    Function check_winner is used for checking if we have a winning combination on the board.
     """
+    Checks the board for a winning combination.
+
+    The function examines rows, columns, and diagonals to determine whether there are
+    three identical non-None values aligned. If such a combination is found, it indicates a win.
+
+    Parameters:
+        board (dict): A dictionary representing the playing board with keys like '1,1', '1,2', etc.,
+                      and values that are either 'X', 'O', or None.
+
+    Returns:
+        bool: True if a winning combination is present, otherwise False.
+    """
+
     # Check rows
     if board['1,1'] == board['1,2'] == board['1,3'] and board['1,1'] is not None:
         return True
@@ -66,10 +93,16 @@ def check_winner(board) -> bool:
 
 
 def get_move() -> str|None:
-    """""
-    Get Move function is used for getting the right player for answering the console query.
-    We use the global counter.
     """
+        Prompts the current player to enter their move based on whose turn it is.
+
+        The global counter is used to determine which player should make the move.
+        If the counter is even, player 'O' is prompted; otherwise, player 'X' is prompted.
+
+        Returns:
+            str: The move input provided by the current player.
+    """
+
     global counter
     if counter % 2 == 0:
         return input("O enters a move: ")

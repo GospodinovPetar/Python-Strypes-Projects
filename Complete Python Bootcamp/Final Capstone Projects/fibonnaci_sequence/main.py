@@ -1,9 +1,27 @@
 def numbers_update(first_num, second_num):
-    """"
-    This function is used to create the next num for the fibonacci sequence and append it,
-    if the next number is higher than the number inputted by the user we return 0,0 which is invalid for any fib sequence,
-    later in the while loop we check if both numbers are 0 and stop the program.
     """
+    Calculates the next Fibonacci number and updates the Fibonacci sequence.
+
+    This function computes the next number in the Fibonacci sequence as the sum of
+    `first_num` and `second_num`. The computed number is then appended to the global list
+    `fib_sequence` which stores the sequence. If the next number exceeds the maximum value
+    specified by the global variable `m`, the function returns (0, 0) as a signal that the
+    sequence should end (since 0 is not a valid Fibonacci number in this context). This termination
+    condition is later checked in the while loop.
+
+    Parameters:
+        first_num (int): The first number of the current Fibonacci pair.
+        second_num (int): The second number of the current Fibonacci pair.
+
+    Returns:
+        tuple[int, int]: A tuple containing the updated Fibonacci pair. If the next number exceeds `m`,
+                          returns (0, 0) to indicate termination.
+
+    Example:
+        If first_num is 5 and second_num is 8, and the next number (13) is not greater than `m`,
+        the function appends 13 to fib_sequence and returns (8, 13).
+    """
+
     next_num = first_num + second_num
     if next_num > m:
         return 0, 0
