@@ -13,15 +13,27 @@ deck_of_cards = {
 }
 
 
-def count_points(hand) -> int:
-    """"
-    Function count_points:
-
-    This function counts the number of points in a given hand.
-    If the card is A. which is not in the deck, it's a made up card which indicated that
-    either one of the players has drawn an Ace which will cause a bust, in that case
-    we count the Ace as 1 instead of 11.
+def count_points(hand : list) -> int:
     """
+    Calculates the total points in a given hand based on card values.
+
+    Special handling:
+      - If a card is marked as 'A.' (indicating an Ace adjusted to avoid busting),
+        it is counted as 1 point.
+      - All other cards are evaluated using the deck_of_cards mapping.
+
+    Parameters:
+        hand (list of str): A list of card representations. Each card is a string that should be a key in the deck_of_cards dictionary.
+                            Use 'A.' to denote an Ace counted as 1 point.
+
+    Returns:
+        int: The total point value calculated from the hand.
+
+    Example:
+        count_points(['A', '10'])
+        21
+    """
+
     points = 0
     for card in hand:
         if card == 'A.':  # Ace adjusted value to 1
@@ -31,14 +43,23 @@ def count_points(hand) -> int:
     return points
 
 
-
-def deal_card(entity, role) -> None:
-    """"
-    Function deal_card:
-
-    This function deals a random card to an entity (player or computer).
-    If the card is an Ace and would cause a bust, it is marked as 'A.' and later counter as 1 instead of 11.
+def deal_card(entity : Player | Computer, role : str) -> None:
     """
+        Deals a random card to an entity and updates its hand accordingly.
+
+        The function randomly selects a card from the deck_of_cards.
+        If the selected card is an Ace ('A') and adding its value would cause the entity's total points to exceed 21,
+        the card is adjusted to 'A.' (to be counted as 1 point later). The card is then appended to the entity's hand,
+        and the updated point total is printed along with the role (e.g., "Player" or "Computer").
+
+        Parameters:
+            entity: An object (such as an instance of Player or Computer) that has a 'hand' attribute (a list) and a 'points' attribute (an int).
+            role (str): A string representing the role of the entity, used for printing messages.
+
+        Returns:
+           None
+        """
+
     card : str = random.choice(list(deck_of_cards.keys()))
     if entity.points + deck_of_cards[card] > 21 and card == 'A':
         card = 'A.'
@@ -47,12 +68,21 @@ def deal_card(entity, role) -> None:
     print(f"{role} got {card}! Points: {current}")
 
 
-def reset_points(comp, play) -> None:
-    """"
-    Function reset_points:
-
-    This function resets the points of both players after the game has finished.
+def reset_points(comp : Computer, play : Player) -> None:
     """
+    Resets the points and hands for both the computer and the player after a game round.
+
+    This function sets the 'points' attribute of both entities to 0 and clears their hands.
+    It then prints a confirmation message stating that the points and hands have been reset.
+
+    Parameters:
+        comp: An instance of Computer, which must have 'points' (int) and 'hand' (list) attributes.
+        play: An instance of Player, which must have 'points' (int) and 'hand' (list) attributes.
+
+    Returns:
+       None
+    """
+
     comp.points = 0
     play.points = 0
     comp.hand.clear()
@@ -60,12 +90,26 @@ def reset_points(comp, play) -> None:
     print("Points and hands have been reset!")
 
 
-def game_outcome(betting_amount) -> None:
-    """"
-    Function game_outcome:
+def game_outcome(betting_amount : float) -> None:
+    """
+    Determines the outcome of the game round based on the points of the player and the computer,
+    and adjusts the player's money accordingly.
 
-    This function is used to determine if the computer has won or lost.
-    This is based on the points of the players
+    The outcome conditions include:
+      - Both entities bust (exceed 21 points): Declares a draw.
+      - Only the player busts: Player loses and loses the bet amount.
+      - Only the computer busts: Player wins and receives twice the bet amount.
+      - Player reaches exactly 21 points: Player wins with a bonus (receives three times the bet amount).
+      - Computer reaches exactly 21 points: Computer wins and the player loses the bet amount.
+
+    After printing the outcome and updating the player's total money,
+    the function resets the points and hands for both entities using the reset_points function.
+
+    Parameters:
+        betting_amount (int): The monetary amount bet for the current game round, used to update the player's total amount.
+
+    Returns:
+        None
     """
 
     outcomes = {
@@ -106,12 +150,6 @@ def game_outcome(betting_amount) -> None:
         print(f"Player's money: {player.total_amount}")
         reset_points(computer, player)
 
-
-# Printing out the docstrings for each function
-print(count_points.__doc__)
-print(deal_card.__doc__)
-print(reset_points.__doc__)
-print(game_outcome.__doc__)
 
 #Player's money
 total_amount : int = int(input("Enter the total amount you want to play with: "))

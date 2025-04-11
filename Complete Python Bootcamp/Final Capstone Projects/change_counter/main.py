@@ -1,8 +1,18 @@
-def compute_change(cost, paid):
+def compute_change(cost : float, paid : float) -> str:
     """
-    The function compute_change is used to compute the difference between the amount paid and the cost amount.
-    It breaks down the difference in cents, then uses those cents to calculate how many dollars, quarters, nickels, dimes and pennies are needed.
-    After every calculation (e.g. how many dollars are needed) we subtract the amount from the cents.
+    Calculates the change and breaks it down into denominations (dollars, quarters, dimes, nickels, and pennies).
+
+    Parameters:
+        cost (float): The cost of the product.
+        paid (float): The amount paid by the customer.
+
+    Returns:
+        str: A formatted string describing the number of coins for each denomination that should be returned,
+             for example "dollars: 3, quarters: 1".
+
+    Example:
+         compute_change(2.35, 5.00)
+        'dollars: 2, quarters: 2, dimes: 1, pennies: 5'
     """
 
     #calculating the change in cents
@@ -48,7 +58,7 @@ cost : float = float(input("Enter the cost of the product: "))
 #The amount that has been paid with
 paid : float = float(input("Enter the amount you paid: "))
 
-#If the cost is
+#If the cost is higher than the paid amount
 if cost > paid:
     while True:
         print(f'Error! You need to pay more than the cost, which is {cost}')
