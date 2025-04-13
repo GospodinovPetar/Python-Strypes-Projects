@@ -21,5 +21,6 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('add/', views.add_expense, name='add_expense'),
-    path('', views.home , name='home')
+    path('', views.home , name='home'),
+    path('delete/<int:expense_id>/', views.delete_expense, name='delete_expense'),
 ]
