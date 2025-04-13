@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Expenses List</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f8f8;
+        }
+        a {
+            text-decoration: none;
+            color: #428bca;
+        }
+    </style>
+</head>
+<body>
+    <h1>Household Expenses</h1>
+    <p><a href="{% url 'add_expense' %}">Add New Expense</a></p>
+    {% if expenses %}
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Expense</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ expense.name }}</td>
+                        <td>{{ expense.expense }}</td>
+                        <td>{{ expense.category }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No expenses recorded yet.</p>
+    {% endif %}
+</body>
+</html>

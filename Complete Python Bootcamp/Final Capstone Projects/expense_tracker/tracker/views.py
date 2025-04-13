@@ -14,4 +14,7 @@ def add_expense(request):
     else:
         form = ExpensesForm()
 
-    return render(request, 'expenses/add_expense.html', {'form': form})
+    return render(request, 'add_expense.html', {'form': form})
+
+def home(request):
+    return render(request, 'home.html')
