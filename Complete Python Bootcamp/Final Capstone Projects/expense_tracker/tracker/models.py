@@ -6,7 +6,7 @@ from django.db import models
 
 # Create your models here.
 
-class expenses(models.Model):
+class Expenses(models.Model):
     categories = [
         ('Healthcare', 'Healthcare'),
         ('Education', 'Education'),
@@ -19,6 +19,7 @@ class expenses(models.Model):
         ('Other', 'Other')
     ]
 
+    expense_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     expense = models.IntegerField(validators=[
         MinValueValidator(1, 'Invalid value')

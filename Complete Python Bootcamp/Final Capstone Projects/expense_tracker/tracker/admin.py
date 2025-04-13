@@ -1,3 +1,10 @@
 from django.contrib import admin
+from .models import Expenses
 
 # Register your models here.
+@admin.register(Expenses)
+class ExpensesAdmin(admin.ModelAdmin):
+    list_display = ['expense_id', 'name', 'category', 'expense']
+    search_fields = ['name', 'category']
+    list_filter = ['category', 'expense']
+    ordering = ['expense']
