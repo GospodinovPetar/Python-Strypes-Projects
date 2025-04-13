@@ -4,7 +4,7 @@ from .models import Expenses
 # Register your models here.
 @admin.register(Expenses)
 class ExpensesAdmin(admin.ModelAdmin):
-    list_display = ['expense_id', 'name', 'category', 'expense']
+    list_display = ['expense_id', 'name', 'category', 'date', 'expense']
     search_fields = ['name', 'category']
-    list_filter = ['category', 'expense']
+    list_filter = ['category', 'expense', 'date']
     ordering = ['expense']
