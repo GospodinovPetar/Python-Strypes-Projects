@@ -47,3 +47,4 @@ def delete_expense(request, expense_id):
     # Optionally, if you want a confirmation page,
     # you can render one here. For now, we simply redirect.
     return render(request, 'home.html', {'expense': expense})
+

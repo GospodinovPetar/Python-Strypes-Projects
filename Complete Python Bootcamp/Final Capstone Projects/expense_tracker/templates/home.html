@@ -27,6 +27,7 @@
                   <th>Name</th>
                   <th>Expense ($)</th>
                   <th>Category</th>
+                  <th>Date</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -37,6 +38,7 @@
                     <td>{{ expense.name }}</td>
                     <td>{{ expense.expense }}</td>
                     <td>{{ expense.category }}</td>
+                    <td>{{ expense.date }}</td>
                     <td>
                       <!-- Delete button: form to post deletion -->
                       <form method="post" action="{% url 'delete_expense' expense.pk %}" style="display:inline;">
