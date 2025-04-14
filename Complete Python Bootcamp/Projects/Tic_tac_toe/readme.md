@@ -1,4 +1,4 @@
-# Milestone Project I: <br> Tic-Tac-Toe Game: Player vs Player
+<h1 align="center">Milestone Project I: <br> Tic-Tac-Toe Game: Player vs Player</h1>
 
 This Python script implements a console-based Tic-Tac-Toe game where two players (X and O) take turns to make their moves on a 3x3 board. The game continues until either one of the players wins or the game ends in a draw.
 
