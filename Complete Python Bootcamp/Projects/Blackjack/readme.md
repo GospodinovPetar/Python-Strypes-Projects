@@ -1,4 +1,4 @@
-# Milestone Project II - Blackjack Game: Player vs. Computer
+<h1 align="center">Milestone Project II <br> Blackjack Game: Player vs. Computer</h1>
 
 This is a simple Python implementation of a Blackjack game where a player competes against a computer. The player can choose to "hit" (draw a card) or "stand" (keep their current hand). The game simulates the process of card dealing, point calculation, and determining the outcome based on the players' scores.
 
