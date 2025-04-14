@@ -2,82 +2,188 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Household Expenses</title>
+  <title>Household Expense Tracker</title>
   <!-- Bootstrap CSS from CDN -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
-    body { padding-top: 20px; }
+    body {
+      padding-top: 20px;
+    }
+    /* Initially hide inline forms */
+    #expenseForm, #incomeForm {
+      display: none;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1 class="text-center mb-4">Expense Tracker</h1>
 
-    {% if expenses %}
-      <div class="card mb-4">
-        <div class="card-header">
-          <strong>Expenses List</strong>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-striped table-bordered">
-              <thead class="thead-light">
-                <tr>
-                  <th>#</th>
-                  <th>Name</th>
-                  <th>Expense ($)</th>
-                  <th>Category</th>
-                  <th>Date</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for expense in expenses %}
-                  <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ expense.name }}</td>
-                    <td>{{ expense.expense }}</td>
-                    <td>{{ expense.category }}</td>
-                    <td>{{ expense.date }}</td>
-                    <td>
-                      <!-- Delete button: form to post deletion -->
-                      <form method="post" action="{% url 'delete_expense' expense.pk %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger btn-sm"
-                            onclick="return confirm('Are you sure you want to delete this expense?');">
-                          Delete
-                        </button>
-                      </form>
-                    </td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
+    <div class="row">
+      <!-- Expenses Column (8 columns wide) -->
+      <div class="col-md-8">
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <strong>Expenses List</strong>
+            <button id="toggleExpenseForm" class="btn btn-primary btn-sm">Add Expense</button>
+          </div>
+          <div class="card-body">
+            {% if expenses %}
+              <div class="table-responsive mb-3">
+                <table class="table table-striped table-bordered">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>Name</th>
+                      <th>Expense ($)</th>
+                      <th>Category</th>
+                      <th>Date</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for expense in expenses %}
+                      <tr>
+                        <td>{{ expense.name }}</td>
+                        <td>{{ expense.expense }}</td>
+                        <td>{{ expense.category }}</td>
+                        <td>{{ expense.date }}</td>
+                        <td>
+                          <form method="post" action="{% url 'delete_expense' expense.pk %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Are you sure you want to delete this expense?');">
+                              Delete
+                            </button>
+                          </form>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% else %}
+              <p class="text-muted mb-3">No expenses found yet.</p>
+            {% endif %}
+
+            <!-- Inline Expense Form -->
+            <div id="expenseForm">
+              <form method="post" action="{% url 'add_expense' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success">Submit Expense</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-      <div class="text-center mb-4">
-        <a href="{% url 'add_expense' %}" class="btn btn-primary">Add New Expense</a>
-      </div>
-    {% else %}
-      <div class="card">
-        <div class="card-header">
-          <strong>No Expenses Found</strong>
+
+      <!-- Incomes Column (4 columns wide) -->
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <strong>Incomes List</strong>
+            <button id="toggleIncomeForm" class="btn btn-success btn-sm">Add Income</button>
+          </div>
+          <div class="card-body">
+            {% if incomes %}
+              <ul class="list-group mb-3">
+                {% for income in incomes %}
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                      <strong>{{ income.source }}</strong><br>
+                      ${{ income.amount }}<br>
+                      <small>{{ income.date }}</small>
+                    </div>
+                    <form method="post" action="{% url 'delete_income' income.pk %}" style="display:inline;">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger btn-sm"
+                              onclick="return confirm('Are you sure you want to delete this income?');">
+                        Delete
+                      </button>
+                    </form>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <p class="text-muted mb-3">No incomes recorded yet.</p>
+            {% endif %}
+
+            <!-- Inline Income Form -->
+            <div id="incomeForm">
+              <form method="post" action="{% url 'add_income' %}">
+                {% csrf_token %}
+                {{ income_form.as_p }}
+                <button type="submit" class="btn btn-success">Submit Income</button>
+              </form>
+            </div>
+          </div>
         </div>
-        <div class="card-body">
-          <p class="mb-4">It looks like you haven't added any expenses yet. Please fill out the form below:</p>
-          <form method="post" action="{% url 'add_expense' %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Submit Expense</button>
-          </form>
-        </div>
       </div>
-    {% endif %}
+    </div>
+
+    <!-- Analytics Section -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <strong>Analytics</strong>
+      </div>
+      <div class="card-body">
+        <p><strong>Net Savings:</strong> ${{ net_worth }}</p>
+        <p><strong>Total Income:</strong> ${{ total_income }}</p>
+        <p><strong>Total Expenses:</strong> ${{ total_expenses }}</p>
+        <p><strong>Savings Rate:</strong> {{ savings_rate|floatformat:2 }}%</p>
+        <h5>Expense Breakdown by Category</h5>
+        <ul class="list-group mb-4">
+          {% for item in expense_breakdown %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              {{ item.category }}: ${{ item.total }}
+            </li>
+          {% endfor %}
+        </ul>
+        <h5>Top Expenses</h5>
+        {% if top_expenses %}
+          <ul class="list-group">
+            {% for expense in top_expenses %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ expense.name }} ({{ expense.category }})</span>
+                <span>${{ expense.expense }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted">No top expenses identified yet.</p>
+        {% endif %}
+      </div>
+    </div>
 
   </div>
-  <!-- Optional JavaScript and Bootstrap JS -->
+
+  <!-- jQuery and Bootstrap JS from CDN -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Toggle the inline Expense Form
+    document.getElementById("toggleExpenseForm").addEventListener("click", function() {
+      var expenseForm = document.getElementById("expenseForm");
+      if (expenseForm.style.display === "none" || expenseForm.style.display === "") {
+        expenseForm.style.display = "block";
+        this.textContent = "Hide Form";
+      } else {
+        expenseForm.style.display = "none";
+        this.textContent = "Add Expense";
+      }
+    });
+
+    // Toggle the inline Income Form
+    document.getElementById("toggleIncomeForm").addEventListener("click", function() {
+      var incomeForm = document.getElementById("incomeForm");
+      if (incomeForm.style.display === "none" || incomeForm.style.display === "") {
+        incomeForm.style.display = "block";
+        this.textContent = "Hide Form";
+      } else {
+        incomeForm.style.display = "none";
+        this.textContent = "Add Income";
+      }
+    });
+  </script>
 </body>
 </html>
