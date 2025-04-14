@@ -70,6 +70,56 @@ The analytics section (always visible below the expense and income lists) shows:
 - Expense Breakdown by Category
 - Top Expenses
 
+## Admin Panel
+
+Django comes with a built-in **Admin Panel** that allows you to manage and interact with your application's data easily. You can use the Admin Panel to view and edit your expenses, incomes, and other models directly from a web interface.
+
+### Step 1: Create a Superuser
+
+In order to access the Admin Panel, you need to create a **superuser** with admin privileges. You can do this by following these steps:
+
+1. In your terminal, navigate to the project directory.
+2. Run the following command to create a superuser:
+   ```bash
+   python manage.py createsuperuser
+3. You will be prompted to enter the following details:
+- Username: Choose a username (e.g., admin)
+- Email address: Provide an email address (e.g., admin@example.com)
+- Password: Set a strong password for the superuser account.
+Once the superuser is created successfully, you will see a confirmation message.
+
+### Step 2: Start the Server
+```bash
+  python manage.py runserver
+```
+
+This will start the server, and you should see output similar to this:
+```bash
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+```
+
+### Step 3: Access the Admin Panel
+Once the server is running, open your web browser and go to the following URL:
+
+http://127.0.0.1:8000/admin/
+
+You will be prompted to log in using the superuser credentials that you created earlier (username and password).
+
+Once logged in to the Admin Panel, you'll be able to:
+- **View and Edit Expenses:** You can add, edit, or delete expenses directly from the admin interface.
+- **View and Edit Incomes:** You can manage income records similarly to expenses.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
