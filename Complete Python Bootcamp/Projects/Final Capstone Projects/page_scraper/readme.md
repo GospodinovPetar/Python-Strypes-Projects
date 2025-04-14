@@ -1,4 +1,4 @@
-# Final Capstone Project: <br> Web Scraper: Link Finder
+<h1 align="center">Final Capstone Project: <br> Web Scraper: Link Finder</h1>
 
 This Python script extracts all the valid HTTP/HTTPS links from a given webpage. It uses the `requests` library to fetch the content of a webpage and `BeautifulSoup` from the `bs4` package to parse and extract the links.
 
