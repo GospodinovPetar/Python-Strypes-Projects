@@ -25,3 +25,12 @@ s = 'hello'
 s = iter(s)
 
 print(next(s))
+
+# Problem 4
+
+numbers = [1, 2, 3, 4, 5]
+
+filtered_gen = (element for element in numbers if element > 3)
+
+for element in filtered_gen:
+    print(element)
