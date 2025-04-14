@@ -2,6 +2,8 @@
 
 This project is a **single page web application** built with [Django](https://www.djangoproject.com/) that helps users track their household finances.
 
+![Screenshot of the Application](screenshot_of_the_app.png "Screenshot")
+
 
 ## Features
 
