@@ -1,4 +1,4 @@
-# Final Capstone Project: <br> Change Calculator: Breakdown of Payment
+<h1 align="center">Final Capstone Project: <br> Change Calculator: Breakdown of Payment</h1>
 
 This Python script calculates the change to be returned to the customer based on the amount paid and the cost of a product. It breaks down the change into the fewest coins possible, including dollars, quarters, dimes, nickels, and pennies.
 
