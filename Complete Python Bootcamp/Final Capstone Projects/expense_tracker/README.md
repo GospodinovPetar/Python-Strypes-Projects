@@ -2,7 +2,7 @@
 
 This project is a **single page web application** built with [Django](https://www.djangoproject.com/) that helps users track their finances.
 
-![Screenshot of the Application](screenshot_of_the_app.png "Screenshot")
+![Screenshot of the Application](screenshots/screenshot_of_the_app.png "Screenshot")
 
 
 ## Features
@@ -110,6 +110,7 @@ Once logged in to the Admin Panel, you'll be able to:
 - **View and Edit Expenses:** You can add, edit, or delete expenses directly from the admin interface.
 - **View and Edit Incomes:** You can manage income records similarly to expenses.
 
+![Screenshot of the Admin Panel](screenshots/screenshot_of_admin_panel.png "Screenshot")
 
 
 
