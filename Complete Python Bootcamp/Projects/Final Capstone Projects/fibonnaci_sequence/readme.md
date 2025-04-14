@@ -1,4 +1,4 @@
-# Final Capstone Project: <br> Fibonacci Sequence Generator
+<h1 align="center">Final Capstone Project: <br> Fibonacci Sequence Generator</h1>
 
 This Python script generates the Fibonacci sequence up to a specified maximum value provided by the user. It continues to generate and append numbers to the sequence until the next number exceeds the user's input. If the next Fibonacci number exceeds the maximum value, the program stops.
 
