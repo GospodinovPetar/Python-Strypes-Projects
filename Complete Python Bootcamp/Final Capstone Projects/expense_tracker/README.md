@@ -1,4 +1,4 @@
-# Expense Tracker – Single Page Web Application
+# Expense Tracker
 
 This project is a **single page web application** built with [Django](https://www.djangoproject.com/) that helps users track their finances.
 
