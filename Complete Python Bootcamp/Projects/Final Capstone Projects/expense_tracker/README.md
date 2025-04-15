@@ -70,7 +70,7 @@ The analytics section (always visible below the expense and income lists) shows:
 - Expense Breakdown by Category
 - Top Expenses
 
-## Admin Panel
+# Admin Panel
 
 Django comes with a built-in **Admin Panel** that allows you to manage and interact with your application's data easily. You can use the Admin Panel to view and edit your expenses, incomes, and other models directly from a web interface.
 
