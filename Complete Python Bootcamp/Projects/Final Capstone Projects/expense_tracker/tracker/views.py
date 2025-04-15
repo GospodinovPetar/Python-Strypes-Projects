@@ -1,24 +1,24 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Sum
+from django.db.models import Sum, QuerySet
 from .forms import ExpensesForm, IncomeForm
 from .models import Expenses, Income
 
 
 def home(request):
-    expenses = Expenses.objects.all().order_by('date')
-    incomes = Income.objects.all().order_by('date')
+    expenses : QuerySet = Expenses.objects.all().order_by('date')
+    incomes : QuerySet = Income.objects.all().order_by('date')
 
-    total_income = incomes.aggregate(total=Sum('amount'))['total'] or 0
-    total_expenses = expenses.aggregate(total=Sum('expense'))['total'] or 0
-    net_worth = total_income - total_expenses
+    total_income : float = incomes.aggregate(total=Sum('amount'))['total'] or 0
+    total_expenses : float = expenses.aggregate(total=Sum('expense'))['total'] or 0
+    net_worth : float = total_income - total_expenses
 
-    expense_breakdown = (
+    expense_breakdown : QuerySet = (
         Expenses.objects.values('category')
         .annotate(total=Sum('expense'))
         .order_by('-total')
     )
-    top_expenses = Expenses.objects.all().order_by('-expense')[:3]
-    savings_rate = (net_worth / total_income * 100) if total_income > 0 else 0
+    top_expenses : QuerySet = Expenses.objects.all().order_by('-expense')[:3]
+    savings_rate : float = (net_worth / total_income * 100) if total_income > 0 else 0
 
     # Process expense form if POST, else create an empty expense form.
     if request.method == "POST" and 'expense' in request.POST:
@@ -32,7 +32,7 @@ def home(request):
     # Always create an empty income form for inline income entry.
     income_form = IncomeForm()
 
-    context = {
+    context : dict = {
         'expenses': expenses,
         'incomes': incomes,
         'form': expense_form,
@@ -71,8 +71,8 @@ def expenses_list(request):
 
     Retrieves all expenses ordered by name and renders them in the home template.
     """
-    expenses_qs = Expenses.objects.all().order_by('name')
-    return render(request, 'home.html', {'expenses': expenses_qs})
+    expenses : QuerySet = Expenses.objects.all().order_by('name')
+    return render(request, 'home.html', {'expenses': expenses})
 
 
 def delete_expense(request, expense_id):
@@ -81,7 +81,7 @@ def delete_expense(request, expense_id):
 
     On a POST request, deletes the expense and redirects to the home view.
     """
-    expense = get_object_or_404(Expenses, pk=expense_id)
+    expense : Expenses = get_object_or_404(Expenses, pk=expense_id)
     if request.method == 'POST':
         expense.delete()
         return redirect('home')
@@ -109,7 +109,7 @@ def delete_income(request, income_id):
 
     On a POST request, deletes the income and redirects to the home view.
     """
-    income = get_object_or_404(Income, pk=income_id)
+    income : Income = get_object_or_404(Income, pk=income_id)
     if request.method == 'POST':
         income.delete()
         return redirect('home')
