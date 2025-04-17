@@ -1,5 +1,6 @@
-GAME_RUNNING : bool = True
-counter : int = 0
+GAME_RUNNING: bool = True
+counter: int = 0
+
 
 def print_board() -> None:
     """
@@ -15,13 +16,15 @@ def print_board() -> None:
 
     global board
     for row in range(1, 4):
-        print(f"{board[f'{row},1'] or ' '} | {board[f'{row},2'] or ' '} | {board[f'{row},3'] or ' '}")
+        print(
+            f"{board[f'{row},1'] or ' '} | {board[f'{row},2'] or ' '} | {board[f'{row},3'] or ' '}"
+        )
         if row < 3:
             print("---------")
 
 
 def move_checker() -> None:
-    """"
+    """ "
     Processes the current move and updates the board with either 'X' or 'O'.
 
     The function checks whether the global move (a string representing the chosen cell)
@@ -38,21 +41,22 @@ def move_checker() -> None:
     global move
     if move in board and board[move] is None:
         if counter % 2 == 0:
-            board[move] = 'O'
+            board[move] = "O"
         else:
-            board[move] = 'X'
+            board[move] = "X"
         counter += 1
     else:
         if move not in board:
-            print('Invalid move. Please enter a valid position.')
+            print("Invalid move. Please enter a valid position.")
             move = get_move()
             move_checker()
         else:
-            print('Cell is occupied. Please choose another.')
+            print("Cell is occupied. Please choose another.")
             move = get_move()
             move_checker()
 
-def check_winner(board : dict) -> bool:
+
+def check_winner(board: dict) -> bool:
     """
     Checks the board for a winning combination.
 
@@ -68,39 +72,39 @@ def check_winner(board : dict) -> bool:
     """
 
     # Check rows
-    if board['1,1'] == board['1,2'] == board['1,3'] and board['1,1'] is not None:
+    if board["1,1"] == board["1,2"] == board["1,3"] and board["1,1"] is not None:
         return True
-    elif board['2,1'] == board['2,2'] == board['2,3'] and board['2,1'] is not None:
+    elif board["2,1"] == board["2,2"] == board["2,3"] and board["2,1"] is not None:
         return True
-    elif board['3,1'] == board['3,2'] == board['3,3'] and board['3,1'] is not None:
+    elif board["3,1"] == board["3,2"] == board["3,3"] and board["3,1"] is not None:
         return True
 
     # Check columns
-    elif board['1,1'] == board['2,1'] == board['3,1'] and board['1,1'] is not None:
+    elif board["1,1"] == board["2,1"] == board["3,1"] and board["1,1"] is not None:
         return True
-    elif board['1,2'] == board['2,2'] == board['3,2'] and board['1,2'] is not None:
+    elif board["1,2"] == board["2,2"] == board["3,2"] and board["1,2"] is not None:
         return True
-    elif board['1,3'] == board['2,3'] == board['3,3'] and board['1,3'] is not None:
+    elif board["1,3"] == board["2,3"] == board["3,3"] and board["1,3"] is not None:
         return True
 
     # Check diagonals
-    elif board['1,1'] == board['2,2'] == board['3,3'] and board['1,1'] is not None:
+    elif board["1,1"] == board["2,2"] == board["3,3"] and board["1,1"] is not None:
         return True
-    elif board['3,1'] == board['2,2'] == board['1,3'] and board['3,1'] is not None:
+    elif board["3,1"] == board["2,2"] == board["1,3"] and board["3,1"] is not None:
         return True
 
     return False
 
 
-def get_move() -> str|None:
+def get_move() -> str | None:
     """
-        Prompts the current player to enter their move based on whose turn it is.
+    Prompts the current player to enter their move based on whose turn it is.
 
-        The global counter is used to determine which player should make the move.
-        If the counter is even, player 'O' is prompted; otherwise, player 'X' is prompted.
+    The global counter is used to determine which player should make the move.
+    If the counter is even, player 'O' is prompted; otherwise, player 'X' is prompted.
 
-        Returns:
-            str: The move input provided by the current player.
+    Returns:
+        str: The move input provided by the current player.
     """
 
     global counter
@@ -111,9 +115,15 @@ def get_move() -> str|None:
 
 
 board = {
-    '1,1': None, '1,2': None, '1,3': None,
-    '2,1': None, '2,2': None, '2,3': None,
-    '3,1': None, '3,2': None, '3,3': None
+    "1,1": None,
+    "1,2": None,
+    "1,3": None,
+    "2,1": None,
+    "2,2": None,
+    "2,3": None,
+    "3,1": None,
+    "3,2": None,
+    "3,3": None,
 }
 
 

@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tracker', '0002_remove_expenses_id_expenses_expense_id'),
+        ("tracker", "0002_remove_expenses_id_expenses_expense_id"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='expenses',
-            name='date',
+            model_name="expenses",
+            name="date",
             field=models.DateField(default=django.utils.timezone.now),
             preserve_default=False,
         ),

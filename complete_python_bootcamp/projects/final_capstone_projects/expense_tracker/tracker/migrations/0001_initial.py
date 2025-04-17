@@ -8,17 +8,47 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='expenses',
+            name="expenses",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('expense', models.IntegerField(validators=[django.core.validators.MinValueValidator(1, 'Invalid value')])),
-                ('category', models.CharField(choices=[('Healthcare', 'Healthcare'), ('Education', 'Education'), ('Entertainment', 'Entertainment'), ('Utilities', 'Utilities'), ('Groceries', 'Groceries'), ('Memberships', 'Memberships'), ('Debt', 'Debt'), ('Emergency Fund', 'Emergency Fund'), ('Other', 'Other')], max_length=50)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                (
+                    "expense",
+                    models.IntegerField(
+                        validators=[
+                            django.core.validators.MinValueValidator(1, "Invalid value")
+                        ]
+                    ),
+                ),
+                (
+                    "category",
+                    models.CharField(
+                        choices=[
+                            ("Healthcare", "Healthcare"),
+                            ("Education", "Education"),
+                            ("Entertainment", "Entertainment"),
+                            ("Utilities", "Utilities"),
+                            ("Groceries", "Groceries"),
+                            ("Memberships", "Memberships"),
+                            ("Debt", "Debt"),
+                            ("Emergency Fund", "Emergency Fund"),
+                            ("Other", "Other"),
+                        ],
+                        max_length=50,
+                    ),
+                ),
             ],
         ),
     ]

@@ -6,14 +6,23 @@ GAME_RUNNING = True
 
 # Mapping card names to points.
 deck_of_cards = {
-    '2': 2, '3': 3, '4': 4, '5': 5,
-    '6': 6, '7': 7, '8': 8, '9': 9,
-    '10': 10, 'J': 10, 'Q': 10, 'K': 10,
-    'A': 11
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7,
+    "8": 8,
+    "9": 9,
+    "10": 10,
+    "J": 10,
+    "Q": 10,
+    "K": 10,
+    "A": 11,
 }
 
 
-def count_points(hand : list) -> int:
+def count_points(hand: list) -> int:
     """
     Calculates the total points in a given hand based on card values.
 
@@ -36,39 +45,39 @@ def count_points(hand : list) -> int:
 
     points = 0
     for card in hand:
-        if card == 'A.':  # Ace adjusted value to 1
+        if card == "A.":  # Ace adjusted value to 1
             points += 1
         else:
             points += deck_of_cards[card]
     return points
 
 
-def deal_card(entity : Player | Computer, role : str) -> None:
+def deal_card(entity: Player | Computer, role: str) -> None:
     """
-        Deals a random card to an entity and updates its hand accordingly.
+    Deals a random card to an entity and updates its hand accordingly.
 
-        The function randomly selects a card from the deck_of_cards.
-        If the selected card is an Ace ('A') and adding its value would cause the entity's total points to exceed 21,
-        the card is adjusted to 'A.' (to be counted as 1 point later). The card is then appended to the entity's hand,
-        and the updated point total is printed along with the role (e.g., "Player" or "Computer").
+    The function randomly selects a card from the deck_of_cards.
+    If the selected card is an Ace ('A') and adding its value would cause the entity's total points to exceed 21,
+    the card is adjusted to 'A.' (to be counted as 1 point later). The card is then appended to the entity's hand,
+    and the updated point total is printed along with the role (e.g., "Player" or "Computer").
 
-        Parameters:
-            entity: An object (such as an instance of Player or Computer) that has a 'hand' attribute (a list) and a 'points' attribute (an int).
-            role (str): A string representing the role of the entity, used for printing messages.
+    Parameters:
+        entity: An object (such as an instance of Player or Computer) that has a 'hand' attribute (a list) and a 'points' attribute (an int).
+        role (str): A string representing the role of the entity, used for printing messages.
 
-        Returns:
-           None
-        """
+    Returns:
+       None
+    """
 
-    card : str = random.choice(list(deck_of_cards.keys()))
-    if entity.points + deck_of_cards[card] > 21 and card == 'A':
-        card = 'A.'
+    card: str = random.choice(list(deck_of_cards.keys()))
+    if entity.points + deck_of_cards[card] > 21 and card == "A":
+        card = "A."
     entity.hand.append(card)
-    current : int = count_points(entity.hand)
+    current: int = count_points(entity.hand)
     print(f"{role} got {card}! Points: {current}")
 
 
-def reset_points(comp : Computer, play : Player) -> None:
+def reset_points(comp: Computer, play: Player) -> None:
     """
     Resets the points and hands for both the computer and the player after a game round.
 
@@ -90,7 +99,7 @@ def reset_points(comp : Computer, play : Player) -> None:
     print("Points and hands have been reset!")
 
 
-def game_outcome(betting_amount : float) -> None:
+def game_outcome(betting_amount: float) -> None:
     """
     Determines the outcome of the game round based on the points of the player and the computer,
     and adjusts the player's money accordingly.
@@ -117,7 +126,11 @@ def game_outcome(betting_amount : float) -> None:
         (True, False): "Player loses! Points exceeded 21.",  # Player busts
         (False, True): "Computer loses! Points exceeded 21.",  # Computer busts
         (False, False, True): "Player wins! Points equal 21.",  # Player wins with 21
-        (False, False, False): "Computer wins! Points equal 21."  # Computer wins with 21
+        (
+            False,
+            False,
+            False,
+        ): "Computer wins! Points equal 21.",  # Computer wins with 21
     }
 
     # Check for game conditions
@@ -151,10 +164,10 @@ def game_outcome(betting_amount : float) -> None:
         reset_points(computer, player)
 
 
-#Player's money
-total_amount : int = int(input("Enter the total amount you want to play with: "))
-#The amount that the player wants to bet
-betting_amount : int = int(input("Enter the betting amount of the player: "))
+# Player's money
+total_amount: int = int(input("Enter the total amount you want to play with: "))
+# The amount that the player wants to bet
+betting_amount: int = int(input("Enter the betting amount of the player: "))
 
 player = Player(total_amount)
 computer = Computer()
@@ -176,20 +189,24 @@ while GAME_RUNNING:
         break
 
     # Ask for player's decision: hit or stand (case-insensitive)
-    player_choice : str = input('Player chooses to "stand", "hit", "exit": ').strip().lower()
+    player_choice: str = (
+        input('Player chooses to "stand", "hit", "exit": ').strip().lower()
+    )
 
-    while player_choice not in ('stand', 'hit', 'exit'):
+    while player_choice not in ("stand", "hit", "exit"):
         print("Invalid input. Please choose 'stand', 'hit' or 'exit'.")
-        player_choice : str = input('Player chooses to "stand", "hit" or "exit": ').strip().lower()
+        player_choice: str = (
+            input('Player chooses to "stand", "hit" or "exit": ').strip().lower()
+        )
 
-    if player_choice == 'stand':
+    if player_choice == "stand":
         deal_card(computer, "Computer")
-        print(f'Player points: {player.points}')
+        print(f"Player points: {player.points}")
 
-    elif player_choice == 'hit':
+    elif player_choice == "hit":
         deal_card(player, "Player")
         deal_card(computer, "Computer")
 
-    elif player_choice == 'exit':
+    elif player_choice == "exit":
         GAME_RUNNING = False
         break

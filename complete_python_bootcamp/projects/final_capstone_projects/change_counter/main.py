@@ -1,4 +1,4 @@
-def compute_change(cost : float, paid : float) -> str:
+def compute_change(cost: float, paid: float) -> str:
     """
     Calculates the change and breaks it down into denominations (dollars, quarters, dimes, nickels, and pennies).
 
@@ -15,11 +15,11 @@ def compute_change(cost : float, paid : float) -> str:
         'dollars: 2, quarters: 2, dimes: 1, pennies: 5'
     """
 
-    #calculating the change in cents
-    change_in_cents : float = round((paid - cost) * 100)
-    coin_breakdown : dict = {}
-    dollars : float = change_in_cents // 100
-    result : list = []
+    # calculating the change in cents
+    change_in_cents: float = round((paid - cost) * 100)
+    coin_breakdown: dict = {}
+    dollars: float = change_in_cents // 100
+    result: list = []
 
     if dollars > 0:
         coin_breakdown["dollars"] = dollars
@@ -45,25 +45,25 @@ def compute_change(cost : float, paid : float) -> str:
         coin_breakdown["pennies"] = pennies
     change_in_cents %= 1
 
-    #Appending the values of each coin into a list
+    # Appending the values of each coin into a list
     for name, value in coin_breakdown.items():
-        result.append(f'{name}: {value}')
+        result.append(f"{name}: {value}")
 
-    #Returning a joined list with each coin, if we have a 0 of a certain coin we don't print it
-    return ', '.join(result)
+    # Returning a joined list with each coin, if we have a 0 of a certain coin we don't print it
+    return ", ".join(result)
 
 
-#The amount that needs to be paid
-cost : float = float(input("Enter the cost of the product: "))
-#The amount that has been paid with
-paid : float = float(input("Enter the amount you paid: "))
+# The amount that needs to be paid
+cost: float = float(input("Enter the cost of the product: "))
+# The amount that has been paid with
+paid: float = float(input("Enter the amount you paid: "))
 
-#If the cost is higher than the paid amount
+# If the cost is higher than the paid amount
 if cost > paid:
     while True:
-        print(f'Error! You need to pay more than the cost, which is {cost}')
+        print(f"Error! You need to pay more than the cost, which is {cost}")
         # The amount that has been paid with
-        paid : float = float(input("Enter the amount you paid: "))
+        paid: float = float(input("Enter the amount you paid: "))
         if paid > cost:
             break
         else:
@@ -71,4 +71,3 @@ if cost > paid:
 
 change_breakdown = compute_change(cost, paid)
 print("Change breakdown:", change_breakdown)
-

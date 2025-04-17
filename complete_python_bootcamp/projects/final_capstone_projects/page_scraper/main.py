@@ -3,6 +3,7 @@ from os import link
 import requests
 from bs4 import BeautifulSoup
 
+
 def link_finder(beautiful_soup):
     """
     Extracts all valid HTTP/HTTPS links from the provided BeautifulSoup object.
@@ -19,22 +20,24 @@ def link_finder(beautiful_soup):
         str: A formatted string listing all valid HTTP/HTTPS links found, or a message stating that no links were found.
     """
 
-    links : list = []
-    for link in beautiful_soup.find_all('a', href=True):  # href=True ensures that we only get valid links
-        l = link['href']
-        if l.startswith('http') or l.startswith('https'):
+    links: list = []
+    for link in beautiful_soup.find_all(
+        "a", href=True
+    ):  # href=True ensures that we only get valid links
+        l = link["href"]
+        if l.startswith("http") or l.startswith("https"):
             links.append(l)
 
-
     if len(links) == 0:
-        return 'No links found or webpage is inaccessible.'
+        return "No links found or webpage is inaccessible."
     else:
         return f"Links found:' '\n' {'\n'.join(links)}"
 
+
 # Send a GET request to the URL
-response = requests.get(input('Enter URL: '))
+response = requests.get(input("Enter URL: "))
 
 # Parse the content using BeautifulSoup
-soup = BeautifulSoup(response.text, 'html.parser')
+soup = BeautifulSoup(response.text, "html.parser")
 
 print(link_finder(soup))

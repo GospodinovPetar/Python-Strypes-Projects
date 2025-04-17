@@ -29,15 +29,16 @@ def numbers_update(first_num, second_num):
 
     return second_num, next_num
 
+
 # Initial Fibonacci numbers
-first_num : int = 0
-second_num : int = 1
+first_num: int = 0
+second_num: int = 1
 
 # List to store the Fibonacci sequence
 fib_sequence = [first_num, second_num]
 
 # Get the maximum value for the sequence
-m : int = int(input('Input the number you want the Fibonacci sequence to go to: '))
+m: int = int(input("Input the number you want the Fibonacci sequence to go to: "))
 
 # Generate the Fibonacci sequence until the value exceeds m
 while True:
