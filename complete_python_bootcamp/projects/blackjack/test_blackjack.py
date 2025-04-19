@@ -11,16 +11,19 @@ def test_counting_points():
 
     assert result == 14
 
+
 def test_counting_points_with_ace_counted_as_one():
     hand = ["A.", "2"]
     result = count_points(hand)
 
     assert result == 3
 
+
 def test_counting_ace_as_one():
     hand = ["6", "7", "A"]
 
     assert count_points(hand) == 14
+
 
 def test_reset_points():
     computer = Computer()
@@ -33,6 +36,5 @@ def test_reset_points():
     assert computer.points == 0
     assert player.points == 0
 
-# TODO: test game_outcome
 
-    
+# TODO: test game_outcome
