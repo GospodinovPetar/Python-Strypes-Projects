@@ -42,13 +42,23 @@ def count_points(hand: list) -> int:
         count_points(['A', '10'])
         21
     """
-
+    
     points = 0
+    ace_count = 0
     for card in hand:
-        if card == "A.":  # Ace adjusted value to 1
+        if card == 'A.':  # Ace adjusted to 1
             points += 1
+        elif card == 'A':  # Ace as 11
+            points += 11
         else:
             points += deck_of_cards[card]
+
+    # If points exceed 21 and we have Aces, adjust Aces from 11 to 1
+    while points > 21 and 'A' in hand:
+        points -= 10  # Adjust one Ace from 11 to 1
+        hand.remove('A')  # Remove one 'A' from the hand (since it's counted as 11)
+        hand.append('A.')  # Add 'A.' (Ace as 1)
+
     return points
 
 
@@ -164,49 +174,48 @@ def game_outcome(betting_amount: float) -> None:
         reset_points(computer, player)
 
 
-# Player's money
-total_amount: int = int(input("Enter the total amount you want to play with: "))
-# The amount that the player wants to bet
-betting_amount: int = int(input("Enter the betting amount of the player: "))
+if __name__ == "__main__":
+    # Player's money
+    total_amount: int = int(input("Enter the total amount you want to play with: "))
+    # The amount that the player wants to bet
+    betting_amount: int = int(input("Enter the betting amount of the player: "))
 
-player = Player(total_amount)
-computer = Computer()
+    player = Player(total_amount)
+    computer = Computer()
 
-# Deal initial card to both.
-deal_card(player, "Player")
-deal_card(computer, "Computer")
+    # Deal initial card to both.
+    deal_card(player, "Player")
+    deal_card(computer, "Computer")
 
-while GAME_RUNNING:
-    # Update current points.
-    player.points = count_points(player.hand)
-    computer.points = count_points(computer.hand)
+    while GAME_RUNNING:
+        # Update current points.
+        player.points = count_points(player.hand)
+        computer.points = count_points(computer.hand)
 
-    game_outcome(betting_amount)
+        game_outcome(betting_amount)
 
-    # End game if player runs out of money.
-    if player.total_amount <= 0:
-        print("Player doesn't have enough money to play!")
-        break
+        if player.total_amount <= 0:
+            print("Player doesn't have enough money to play!")
+            break
 
-    # Ask for player's decision: hit or stand (case-insensitive)
-    player_choice: str = (
-        input('Player chooses to "stand", "hit", "exit": ').strip().lower()
-    )
-
-    while player_choice not in ("stand", "hit", "exit"):
-        print("Invalid input. Please choose 'stand', 'hit' or 'exit'.")
         player_choice: str = (
-            input('Player chooses to "stand", "hit" or "exit": ').strip().lower()
+            input('Player chooses to "stand", "hit", "exit": ').strip().lower()
         )
 
-    if player_choice == "stand":
-        deal_card(computer, "Computer")
-        print(f"Player points: {player.points}")
+        while player_choice not in ("stand", "hit", "exit"):
+            print("Invalid input. Please choose 'stand', 'hit' or 'exit'.")
+            player_choice: str = (
+                input('Player chooses to "stand", "hit" or "exit": ').strip().lower()
+            )
 
-    elif player_choice == "hit":
-        deal_card(player, "Player")
-        deal_card(computer, "Computer")
+        if player_choice == "stand":
+            deal_card(computer, "Computer")
+            print(f"Player points: {player.points}")
 
-    elif player_choice == "exit":
-        GAME_RUNNING = False
-        break
+        elif player_choice == "hit":
+            deal_card(player, "Player")
+            deal_card(computer, "Computer")
+
+        elif player_choice == "exit":
+            GAME_RUNNING = False
+            break
