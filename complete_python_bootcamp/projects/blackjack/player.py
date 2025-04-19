@@ -1,8 +1,8 @@
 class Player:
     def __init__(self, total_amount: int, points: int = 0):
-        # Players points
+        # Player points
         self.points: int = points
         # Players total amount of money
         self.total_amount: int = total_amount
-        # Players hand
+        # Player hand
         self.hand: list = []
