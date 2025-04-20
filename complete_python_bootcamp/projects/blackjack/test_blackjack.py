@@ -1,5 +1,7 @@
 import pytest
 from computer import Computer
+from player import Player
+from unittest.mock import patch
 from main import (
     count_points,
     reset_points,
@@ -8,8 +10,6 @@ from main import (
     player_input,
     get_valid_input,
 )
-from player import Player
-from unittest.mock import patch
 
 
 # ========================
