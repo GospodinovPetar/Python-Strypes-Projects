@@ -2,7 +2,7 @@ import random
 from computer import Computer
 from player import Player
 
-GAME_RUNNING = True
+global GAME_RUNNING
 
 # Mapping card names to points.
 deck_of_cards = {
@@ -44,20 +44,12 @@ def count_points(hand: list) -> int:
     """
 
     points = 0
-    ace_count = 0
     for card in hand:
-        if card == "A.":  # Ace adjusted to 1
-            points += 1
-        elif card == "A":  # Ace as 11
-            points += 11
-        else:
-            points += deck_of_cards[card]
+        points += deck_of_cards[card]
 
-    # If points exceed 21 and we have Aces, adjust Aces from 11 to 1
+    # If points exceed 21, and we have Aces, adjust Aces from 11 to 1
     while points > 21 and "A" in hand:
         points -= 10  # Adjust one Ace from 11 to 1
-        hand.remove("A")  # Remove one 'A' from the hand (since it's counted as 11)
-        hand.append("A.")  # Add 'A.' (Ace as 1)
 
     return points
 
@@ -78,14 +70,15 @@ def deal_card(entity: Player | Computer, role: str) -> str:
     Returns:
        None
     """
+    current: int = count_points(entity.hand)
+    if current > 21:
+        return f"{role} busts! Points exceeded 21."
 
     card: str = random.choice(list(deck_of_cards.keys()))
-    if entity.points + deck_of_cards[card] > 21 and card == "A":
-        card = "A."
-    elif entity.points > 21:
-        return f"{role} busts! Points exceeded 21."
+
     entity.hand.append(card)
-    current: int = count_points(entity.hand)
+    current: int = count_points(entity.hand)  # Recalculate points after a card is added
+
     return f"{role} got {card}! Points: {current}"
 
 
@@ -135,21 +128,13 @@ def game_outcome(betting_amount: float, computer: Computer, player: Player) -> s
         None
     """
     if player.total_amount <= 0:
-        return 'Player doesn\'t have enough money to play!'
+        return "Player doesn't have enough money to play!"
 
     if betting_amount > player.total_amount:
-        return 'Not enough money to make the bet!'
+        return "Not enough money to make the bet!"
 
     if betting_amount <= 0:
-        return 'Invalid amount. Please enter a positive number.'
-
-    outcomes = {
-        (True, True): "It's a draw",  # Both bust
-        (True, False): "Player loses! Points exceeded 21.",  # Player busts
-        (False, True): "Computer loses! Points exceeded 21.",  # Computer busts
-        (False, False, True): "Player wins! Points equal 21.",  # Player wins with 21
-        (False, False, False,): "Computer wins! Points equal 21."  # Computer wins with 21
-    }
+        return "Invalid amount. Please enter a positive number."
 
     # Check for game conditions
     player_bust = player.points > 21
@@ -159,55 +144,69 @@ def game_outcome(betting_amount: float, computer: Computer, player: Player) -> s
 
     if player_bust and computer_bust:
         reset_points(computer, player)
-        return outcomes[(True, True)]
+        return "It's a draw"
 
     elif player_bust:
-        print(outcomes[(True, False)])
         player.total_amount -= betting_amount
         reset_points(computer, player)
-        return f"Player's money: {player.total_amount}"
+        return f"Player loses! Points exceeded 21. Players money: {player.total_amount}"
+
     elif computer_bust:
-        print(outcomes[(False, True)])
         player.total_amount += betting_amount * 2
         reset_points(computer, player)
-        return f"Player's money: {player.total_amount}"
+        return (
+            f"Computer loses! Points exceeded 21. Players money: {player.total_amount}"
+        )
 
     elif player_21:
-        print(outcomes[(False, False, True)])
         player.total_amount += betting_amount * 3
         reset_points(computer, player)
-        return f"Player's money: {player.total_amount}"
+        return f"Player wins! Points equal 21. Players money: {player.total_amount}"
 
     elif computer_21:
-        print(outcomes[(False, False, False)])
         player.total_amount -= betting_amount
         reset_points(computer, player)
-        return f"Player's money: {player.total_amount}"
+        return f"Computer wins! Points equal 21. Players money: {player.total_amount}"
 
-    return 'Invalid game outcome. Please try again.'
+    return "Game continues.."
 
 
-if __name__ == "__main__":
-    total_amount: int = 0
-    betting_amount: int = 0
-    # Player's money
-    while total_amount <= 0:
-        total_amount: int = int(input("Enter the total amount you want to play with: "))
-        if total_amount <= 0:
+def get_valid_input(prompt: str) -> int:
+    """
+    Helper function to get a valid positive number as input.
+
+    Params:
+        prompt (str): The message displayed to the user when asking for input.
+
+    Returns:
+        int: The valid positive integer entered by the user.
+    """
+    while True:
+        try:
+            value = int(input(prompt))
+            if value > 0:
+                return value
+            else:
+                print("Invalid amount. Please enter a positive number.")
+        except ValueError:
             print("Invalid amount. Please enter a positive number.")
-    # The amount that the player wants to bet
-    while betting_amount <= 0:
-        betting_amount: int = int(input("Enter the betting amount of the player: "))
-        if betting_amount <= 0:
-            print("Invalid amount. Please enter a positive number.")
 
-    player = Player(total_amount)
-    computer = Computer()
 
-    # Deal initial card to both.
-    deal_card(player, "Player")
-    deal_card(computer, "Computer")
+def player_input():
+    """
+    Gets valid total amount and betting amount from the player.
 
+    Returns:
+        tuple: (total_amount, betting_amount)
+    """
+    total_amount = get_valid_input("Enter the total amount you want to play with: ")
+    betting_amount = get_valid_input("Enter the betting amount of the player: ")
+
+    return total_amount, betting_amount
+
+
+def game():
+    GAME_RUNNING = True
     while GAME_RUNNING:
 
         if player.total_amount <= 0:
@@ -218,10 +217,18 @@ if __name__ == "__main__":
         player.points = count_points(player.hand)
         computer.points = count_points(computer.hand)
 
-        game_outcome(betting_amount, computer, player)
-        player_choice: str = (
-            input('Player chooses to "stand", "hit", "exit": ').strip().lower()
-        )
+        result = game_outcome(betting_amount, computer, player)
+        print(result)
+
+        if result == "Game continues..":
+            player_choice: str = (
+                input('Player chooses to "stand", "hit", "exit": ').strip().lower()
+            )
+        else:
+            print(f"\nNew Game!")
+            print(deal_card(player, "Player"))
+            print(deal_card(computer, "Computer"))
+            continue
 
         while player_choice not in ("stand", "hit", "exit"):
             print("Invalid input. Please choose 'stand', 'hit' or 'exit'.")
@@ -230,13 +237,25 @@ if __name__ == "__main__":
             )
 
         if player_choice == "stand":
-            deal_card(computer, "Computer")
+            print(deal_card(computer, "Computer"))
             print(f"Player points: {player.points}")
 
         elif player_choice == "hit":
-            deal_card(player, "Player")
-            deal_card(computer, "Computer")
+            print(deal_card(player, "Player"))
+            print(deal_card(computer, "Computer"))
 
         elif player_choice == "exit":
             GAME_RUNNING = False
             break
+
+
+if __name__ == "__main__":
+    total_amount, betting_amount = player_input()
+    player = Player(total_amount)
+    computer = Computer()
+
+    # Deal initial card to both.
+    print(deal_card(player, "Player"))
+    print(deal_card(computer, "Computer"))
+
+    game()
