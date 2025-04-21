@@ -9,6 +9,14 @@ from main import (
     deal_card,
     player_input,
     get_valid_input,
+    CARD_A,
+    CARD_2,
+    CARD_3,
+    CARD_6,
+    CARD_7,
+    CARD_10,
+    CARD_K,
+    CARD_Q,
 )
 
 
@@ -19,14 +27,14 @@ from main import (
 
 def test_counting_points_with_ace_as_11():
     # Test: Hand has an Ace and a 3. The Ace counts as 11.
-    hand = ["A", "3"]
+    hand = [CARD_A, CARD_3]
     result = count_points(hand)
     assert result == 14  # 11 (Ace) + 3 = 14
 
 
 def test_counting_points_with_ace_and_other_cards():
     # Test: Hand has a 6, a 7, and an Ace. The Ace counts as 11.
-    hand = ["6", "7", "A"]
+    hand = [CARD_6, CARD_7, CARD_A]
     result = count_points(hand)
     assert result == 14  # 6 + 7 + 11 (Ace) = 14
 
@@ -114,18 +122,18 @@ def test_deal_card_with_mocked_card():
     player = Player(100)
 
     # Mock 'A' to always be drawn
-    with patch("random.choice", return_value="A"):
+    with patch("random.choice", return_value=CARD_A):
         result = deal_card(player, "Player")
         assert result == "Player got A! Points: 11"  # Ace counts as 11 initially
 
     # Mock '10' to always be drawn
-    with patch("random.choice", return_value="10"):
+    with patch("random.choice", return_value=CARD_10):
         result = deal_card(player, "Player")
         assert result == "Player got 10! Points: 21"  # Now points should be 21
 
     # Mock Ace adjusted to 1
-    with patch("random.choice", return_value="A"):
-        player.hand = ["K", "Q"]
+    with patch("random.choice", return_value=CARD_A):
+        player.hand = [CARD_K, CARD_Q]
         result = deal_card(player, "Player")
         assert result == "Player got A! Points: 21"  # Ace counts as 1
 
@@ -164,7 +172,7 @@ def test_deal_card_after_busting():
     # Test: Deal card after player busts
     player = Player(100)
     computer = Computer()
-    player.hand = ["K", "Q", "2"]  # The player is already busted
+    player.hand = [CARD_K, CARD_Q, CARD_2]  # The player is already busted
     result = deal_card(player, "Player")
     player.points = count_points(player.hand)
     assert result == "Player busts! Points exceeded 21."  # No card should be dealt
@@ -233,12 +241,11 @@ def test_count_points_invalid_card():
     with pytest.raises(KeyError):
         count_points(["Z"])  # Invalid card 'Z' should raise KeyError
 
-
-# Name                Stmts   Miss  Cover   Missing
-# -------------------------------------------------
-# computer.py             4      0   100%
-# main.py               104     33    68%   209-249, 253-261
-# player.py               5      0   100%
-# test_blackjack.py     123      0   100%
-# -------------------------------------------------
-# TOTAL                 236     33    86%
+# Name                                   Stmts   Miss  Cover   Missing
+# --------------------------------------------------------------------
+# projects/blackjack/computer.py             4      0   100%
+# projects/blackjack/main.py               117     33    72%   169-209, 213-221
+# projects/blackjack/player.py               5      0   100%
+# projects/blackjack/test_blackjack.py     122      0   100%
+# --------------------------------------------------------------------
+# TOTAL                                    248     33    87%

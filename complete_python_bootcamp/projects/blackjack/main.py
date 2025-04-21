@@ -2,25 +2,39 @@ import random
 from computer import Computer
 from player import Player
 
-global GAME_RUNNING
+# Defining constants for the cards
+CARD_2 = '2'
+CARD_3 = '3'
+CARD_4 = '4'
+CARD_5 = '5'
+CARD_6 = '6'
+CARD_7 = '7'
+CARD_8 = '8'
+CARD_9 = '9'
+CARD_10 = '10'
+CARD_J = 'J'
+CARD_Q = 'Q'
+CARD_K = 'K'
+CARD_A = 'A'
 
 # Mapping card names to points.
 deck_of_cards = {
-    "2": 2,
-    "3": 3,
-    "4": 4,
-    "5": 5,
-    "6": 6,
-    "7": 7,
-    "8": 8,
-    "9": 9,
-    "10": 10,
-    "J": 10,
-    "Q": 10,
-    "K": 10,
-    "A": 11,
+    CARD_2: 2,
+    CARD_3: 3,
+    CARD_4: 4,
+    CARD_5: 5,
+    CARD_6: 6,
+    CARD_7: 7,
+    CARD_8: 8,
+    CARD_9: 9,
+    CARD_10: 10,
+    CARD_J: 10,
+    CARD_Q: 10,
+    CARD_K: 10,
+    CARD_A: 11,
 }
 
+global GAME_RUNNING
 
 def count_points(hand: list) -> int:
     """
@@ -33,13 +47,13 @@ def count_points(hand: list) -> int:
 
     Parameters:
         hand (list of str): A list of card representations. Each card is a string that should be a key in the deck_of_cards dictionary.
-                            Use 'A.' to denote an Ace counted as 1 point.
+                            Use 'A.' to denote an Ace counted as 1 point later.
 
     Returns:
         int: The total point value calculated from the hand.
 
     Example:
-        count_points(['A', '10'])
+        count_points([CARD_A, CARD_10])
         21
     """
 
@@ -48,7 +62,7 @@ def count_points(hand: list) -> int:
         points += deck_of_cards[card]
 
     # If points exceed 21, and we have Aces, adjust Aces from 11 to 1
-    while points > 21 and "A" in hand:
+    while points > 21 and CARD_A in hand:
         points -= 10  # Adjust one Ace from 11 to 1
 
     return points
@@ -57,18 +71,6 @@ def count_points(hand: list) -> int:
 def deal_card(entity: Player | Computer, role: str) -> str:
     """
     Deals a random card to an entity and updates its hand accordingly.
-
-    The function randomly selects a card from the deck_of_cards.
-    If the selected card is an Ace ('A') and adding its value would cause the entity's total points to exceed 21,
-    the card is adjusted to 'A.' (to be counted as 1 point later). The card is then appended to the entity's hand,
-    and the updated point total is printed along with the role (e.g., "Player" or "Computer").
-
-    Parameters:
-        entity: An object (such as an instance of Player or Computer) that has a 'hand' attribute (a list) and a 'points' attribute (an int).
-        role (str): A string representing the role of the entity, used for printing messages.
-
-    Returns:
-       None
     """
     current: int = count_points(entity.hand)
     if current > 21:
@@ -85,18 +87,7 @@ def deal_card(entity: Player | Computer, role: str) -> str:
 def reset_points(comp: Computer, play: Player) -> None:
     """
     Resets the points and hands for both the computer and the player after a game round.
-
-    This function sets the 'points' attribute of both entities to 0 and clears their hands.
-    It then prints a confirmation message stating that the points and hands have been reset.
-
-    Parameters:
-        comp: An instance of Computer, which must have 'points' (int) and 'hand' (list) attributes.
-        play: An instance of Player, which must have 'points' (int) and 'hand' (list) attributes.
-
-    Returns:
-       None
     """
-
     comp.points = 0
     play.points = 0
     comp.hand.clear()
@@ -105,28 +96,6 @@ def reset_points(comp: Computer, play: Player) -> None:
 
 
 def game_outcome(betting_amount: float, computer: Computer, player: Player) -> str:
-    """
-    Determines the outcome of the game round based on the points of the player and the computer,
-    and adjusts the player's money accordingly.
-
-    The outcome conditions include:
-      - Both entities bust (exceed 21 points): Declares a draw.
-      - Only the player busts: Player loses and loses the bet amount.
-      - Only the computer busts: Player wins and receives twice the bet amount.
-      - Player reaches exactly 21 points: Player wins with a bonus (receives three times the bet amount).
-      - Computer reaches exactly 21 points: Computer wins and the player loses the bet amount.
-
-    After printing the outcome and updating the player's total money,
-    the function resets the points and hands for both entities using the reset_points function.
-
-    Parameters:
-        player: The player object, which must have a 'points' attribute (an int) and a 'total_amount' attribute (an int).
-        computer: Computer object, which must have a 'points' attribute (an int) and a 'hand' attribute (a list).
-        betting_amount (int): The monetary amount bet for the current game round, used to update the player's total amount.
-
-    Returns:
-        None
-    """
     if player.total_amount <= 0:
         return "Player doesn't have enough money to play!"
 
@@ -154,9 +123,7 @@ def game_outcome(betting_amount: float, computer: Computer, player: Player) -> s
     elif computer_bust:
         player.total_amount += betting_amount * 2
         reset_points(computer, player)
-        return (
-            f"Computer loses! Points exceeded 21. Players money: {player.total_amount}"
-        )
+        return f"Computer loses! Points exceeded 21. Players money: {player.total_amount}"
 
     elif player_21:
         player.total_amount += betting_amount * 3
@@ -171,15 +138,11 @@ def game_outcome(betting_amount: float, computer: Computer, player: Player) -> s
     return "Game continues.."
 
 
+
+
 def get_valid_input(prompt: str) -> int:
     """
     Helper function to get a valid positive number as input.
-
-    Params:
-        prompt (str): The message displayed to the user when asking for input.
-
-    Returns:
-        int: The valid positive integer entered by the user.
     """
     while True:
         try:
@@ -195,9 +158,6 @@ def get_valid_input(prompt: str) -> int:
 def player_input():
     """
     Gets valid total amount and betting amount from the player.
-
-    Returns:
-        tuple: (total_amount, betting_amount)
     """
     total_amount = get_valid_input("Enter the total amount you want to play with: ")
     betting_amount = get_valid_input("Enter the betting amount of the player: ")
