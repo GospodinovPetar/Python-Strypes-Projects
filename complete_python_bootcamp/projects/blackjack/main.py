@@ -243,13 +243,13 @@ def player_input() -> tuple[float, float]:
         (500, 100)
     """
 
-    total : float = get_valid_input("Enter the total amount you want to play with: ")
-    betting : float = get_valid_input("Enter the betting amount of the player: ")
+    total: float = get_valid_input("Enter the total amount you want to play with: ")
+    betting: float = get_valid_input("Enter the betting amount of the player: ")
 
     return total, betting
 
-def game(player: Player, computer: Computer, betting_amount: float) -> str:
 
+def game(player: Player, computer: Computer, betting_amount: float) -> str:
     """
     Runs the game loop where the player competes against the computer, managing rounds and actions.
 
