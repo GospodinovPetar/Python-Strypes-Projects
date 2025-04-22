@@ -73,7 +73,23 @@ def count_points(hand: list) -> int:
 def deal_card(entity: Player | Computer, role: str) -> str:
     """
     Deals a random card to an entity and updates its hand accordingly.
+
+    Special handling:
+      - If the entity's points exceed 21 after receiving the card, it results in a bust (the entity loses).
+      - The function selects a card at random from the deck and adds it to the entity's hand.
+
+    Parameters:
+        entity (Player | Computer): The entity (either a Player or Computer) receiving the card. The entity must have a `hand` attribute that is a list representing its current cards.
+        role (str): A string representing the role of the entity (e.g., "Player" or "Computer") used in the response message.
+
+    Returns:
+        str: A message indicating the card dealt to the entity and its updated point total, or a bust message if the total exceeds 21.
+
+    Example:
+        deal_card(player, "Player")
+        "Player got 10! Points: 15"
     """
+
     current: int = count_points(entity.hand)
     if current > 21:
         return f"{role} busts! Points exceeded 21."
@@ -86,18 +102,56 @@ def deal_card(entity: Player | Computer, role: str) -> str:
     return f"{role} got {card}! Points: {current}"
 
 
-def reset_points(comp: Computer, play: Player) -> None:
+def reset_points(comp: Computer, play: Player) -> str:
     """
     Resets the points and hands for both the computer and the player after a game round.
+
+    Special handling:
+      - The points for both the computer and player are reset to 0.
+      - The hands of both the computer and player are cleared (emptied) to start a new round.
+
+    Parameters:
+        comp (Computer): The computer entity whose points and hand are being reset.
+        play (Player): The player entity whose points and hand are being reset.
+
+    Returns:
+        str: A message indicating that the points and hands have been successfully reset for both entities.
+
+    Example:
+        reset_points(computer, player)
+        "Points and hands have been reset!"
     """
+
     comp.points = 0
     play.points = 0
     comp.hand.clear()
     play.hand.clear()
-    print("Points and hands have been reset!")
+    return "Points and hands have been reset!"
 
 
 def game_outcome(betting_amount: float, computer: Computer, player: Player) -> str:
+    """
+    Determines the outcome of a game round, updates the player's total amount of money, and resets the points and hands.
+
+    Special handling:
+      - If the player doesn't have enough money to make the bet, the game can't proceed.
+      - If the player or computer exceeds 21 points, the respective entity loses.
+      - If the player or computer hits 21 points, special outcomes are applied (with corresponding changes to the player's money).
+      - The game continues if no player or computer busts or hits 21.
+
+    Parameters:
+        betting_amount (float): The amount the player is betting on this round.
+        computer (Computer): The computer entity, whose points and game status are checked.
+        player (Player): The player entity, whose points and game status are checked.
+
+    Returns:
+        str: A message indicating the outcome of the round (e.g., whether the player or computer wins, loses, or if the game continues).
+
+    Example:
+        game_outcome(100, computer, player)
+        "Player wins! Points equal 21. Players money: 500"
+    """
+
     if player.total_amount <= 0:
         return "Player doesn't have enough money to play!"
 
@@ -144,8 +198,23 @@ def game_outcome(betting_amount: float, computer: Computer, player: Player) -> s
 
 def get_valid_input(prompt: str) -> int:
     """
-    Helper function to get a valid positive number as input.
+    Helper function to get a valid positive number as input from the user.
+
+    Special handling:
+      - Continuously prompts the user until a valid positive integer is entered.
+      - If the user enters a non-integer or a non-positive number, an error message is displayed and the input is requested again.
+
+    Parameters:
+        prompt (str): The message to be displayed to the user, prompting for input.
+
+    Returns:
+        int: A valid positive integer input by the user.
+
+    Example:
+        get_valid_input("Enter a positive number: ")
+        50
     """
+
     while True:
         try:
             value = int(input(prompt))
@@ -157,17 +226,52 @@ def get_valid_input(prompt: str) -> int:
             print("Invalid amount. Please enter a positive number.")
 
 
-def player_input():
+def player_input() -> tuple[float, float]:
     """
     Gets valid total amount and betting amount from the player.
+
+    Special handling:
+      - Prompts the player for a valid total amount they want to play with and a valid betting amount.
+      - Uses the `get_valid_input` function to ensure that the amounts entered are positive numbers.
+      - Returns the total amount and the betting amount as a tuple.
+
+    Returns:
+        tuple[float, float]: A tuple containing the player's total amount and betting amount.
+
+    Example:
+        player_input()
+        (500, 100)
     """
-    total_amount = get_valid_input("Enter the total amount you want to play with: ")
-    betting_amount = get_valid_input("Enter the betting amount of the player: ")
 
-    return total_amount, betting_amount
+    total : float = get_valid_input("Enter the total amount you want to play with: ")
+    betting : float = get_valid_input("Enter the betting amount of the player: ")
 
+    return total, betting
 
 def game(player: Player, computer: Computer, betting_amount: float) -> str:
+
+    """
+    Runs the game loop where the player competes against the computer, managing rounds and actions.
+
+    Special handling:
+      - The game continues as long as the player has money and chooses to play.
+      - The player can choose to "stand", "hit", or "exit" during their turn.
+      - If the player or computer busts or hits 21, the game outcome is determined and the round ends.
+      - The game loops, prompting the player for decisions and updating the hands, points, and outcome after each round.
+
+    Parameters:
+        player (Player): The player entity who participates in the game.
+        computer (Computer): The computer entity, which competes against the player.
+        betting_amount (float): The amount the player is betting for the current round.
+
+    Returns:
+        str: A message indicating the game outcome or "GAME OVER" if the game ends.
+
+    Example:
+        game(player, computer, 100)
+        "Player wins! Points equal 21. Player's money: 500"
+    """
+
     global GAME_RUNNING  # Declare GAME_RUNNING as global before using it
 
     while GAME_RUNNING:
@@ -188,7 +292,7 @@ def game(player: Player, computer: Computer, betting_amount: float) -> str:
             print(deal_card(computer, "Computer"))
             continue
 
-        # If game continues, ask the player for their action (hit, stand, or exit)
+        # If the game continues, ask the player for their action (hit, stand, or exit)
         player_choice: str = (
             input('Player chooses to "stand", "hit", "exit": ').strip().lower()
         )
