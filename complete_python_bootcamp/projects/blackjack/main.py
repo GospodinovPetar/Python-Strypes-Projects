@@ -2,20 +2,23 @@ import random
 from computer import Computer
 from player import Player
 
+# Declare GAME_RUNNING as a global variable at the top of the code
+GAME_RUNNING = True
+
 # Defining constants for the cards
-CARD_2 = '2'
-CARD_3 = '3'
-CARD_4 = '4'
-CARD_5 = '5'
-CARD_6 = '6'
-CARD_7 = '7'
-CARD_8 = '8'
-CARD_9 = '9'
-CARD_10 = '10'
-CARD_J = 'J'
-CARD_Q = 'Q'
-CARD_K = 'K'
-CARD_A = 'A'
+CARD_2 = "2"
+CARD_3 = "3"
+CARD_4 = "4"
+CARD_5 = "5"
+CARD_6 = "6"
+CARD_7 = "7"
+CARD_8 = "8"
+CARD_9 = "9"
+CARD_10 = "10"
+CARD_J = "J"
+CARD_Q = "Q"
+CARD_K = "K"
+CARD_A = "A"
 
 # Mapping card names to points.
 deck_of_cards = {
@@ -34,7 +37,6 @@ deck_of_cards = {
     CARD_A: 11,
 }
 
-global GAME_RUNNING
 
 def count_points(hand: list) -> int:
     """
@@ -123,7 +125,9 @@ def game_outcome(betting_amount: float, computer: Computer, player: Player) -> s
     elif computer_bust:
         player.total_amount += betting_amount * 2
         reset_points(computer, player)
-        return f"Computer loses! Points exceeded 21. Players money: {player.total_amount}"
+        return (
+            f"Computer loses! Points exceeded 21. Players money: {player.total_amount}"
+        )
 
     elif player_21:
         player.total_amount += betting_amount * 3
@@ -136,8 +140,6 @@ def game_outcome(betting_amount: float, computer: Computer, player: Player) -> s
         return f"Computer wins! Points equal 21. Players money: {player.total_amount}"
 
     return "Game continues.."
-
-
 
 
 def get_valid_input(prompt: str) -> int:
@@ -165,48 +167,52 @@ def player_input():
     return total_amount, betting_amount
 
 
-def game():
-    GAME_RUNNING = True
+def game(player: Player, computer: Computer, betting_amount: float) -> str:
+    global GAME_RUNNING  # Declare GAME_RUNNING as global before using it
+
     while GAME_RUNNING:
-
         if player.total_amount <= 0:
-            print("Player doesn't have enough money to play!")
-            break
+            return "Player doesn't have enough money to play!"
 
-        # Update current points.
+        # Update current points for both player and computer
         player.points = count_points(player.hand)
         computer.points = count_points(computer.hand)
 
+        # Determine the outcome of the game round
         result = game_outcome(betting_amount, computer, player)
         print(result)
 
-        if result == "Game continues..":
-            player_choice: str = (
-                input('Player chooses to "stand", "hit", "exit": ').strip().lower()
-            )
-        else:
+        if result != "Game continues..":
             print(f"\nNew Game!")
             print(deal_card(player, "Player"))
             print(deal_card(computer, "Computer"))
             continue
 
+        # If game continues, ask the player for their action (hit, stand, or exit)
+        player_choice: str = (
+            input('Player chooses to "stand", "hit", "exit": ').strip().lower()
+        )
+
         while player_choice not in ("stand", "hit", "exit"):
             print("Invalid input. Please choose 'stand', 'hit' or 'exit'.")
-            player_choice: str = (
+            player_choice = (
                 input('Player chooses to "stand", "hit" or "exit": ').strip().lower()
             )
+
+            if player_choice not in ("stand", "hit", "exit"):
+                return "Invalid input. Please choose 'stand', 'hit' or 'exit'."  # Stop the game on invalid input
 
         if player_choice == "stand":
             print(deal_card(computer, "Computer"))
             print(f"Player points: {player.points}")
-
         elif player_choice == "hit":
             print(deal_card(player, "Player"))
             print(deal_card(computer, "Computer"))
-
         elif player_choice == "exit":
             GAME_RUNNING = False
             break
+
+    return "GAME OVER"
 
 
 if __name__ == "__main__":
@@ -217,5 +223,4 @@ if __name__ == "__main__":
     # Deal initial card to both.
     print(deal_card(player, "Player"))
     print(deal_card(computer, "Computer"))
-
-    game()
+    game(player, computer, betting_amount)
