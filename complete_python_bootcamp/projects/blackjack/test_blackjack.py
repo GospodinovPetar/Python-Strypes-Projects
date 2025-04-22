@@ -394,6 +394,6 @@ def test_new_game():
 # projects/blackjack/computer.py             4      0   100%
 # projects/blackjack/main.py               122      9    93%
 # projects/blackjack/player.py               5      0   100%
-# projects/blackjack/test_blackjack.py     143      0   100%
+# projects/blackjack/test_blackjack.py     149      0   100%
 # ----------------------------------------------------------
 # TOTAL                                    269     13    95%
