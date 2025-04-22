@@ -382,6 +382,12 @@ def test_game_busts_after_hit():
 
     assert result == "Player busts! Points exceeded 21."
 
+def test_new_game():
+    player = Player(100)
+    computer = Computer()
+
+    result = handle_game_round('test', player, computer)
+    assert result == "New Game!"
 
 # Name                                   Stmts   Miss  Cover
 # ----------------------------------------------------------
