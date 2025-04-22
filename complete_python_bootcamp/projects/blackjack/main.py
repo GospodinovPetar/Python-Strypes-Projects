@@ -339,6 +339,7 @@ def game(player: Player, computer: Computer, betting_amount: float) -> str:
     return "GAME OVER"
 
 
+
 if __name__ == "__main__":
     total_amount, betting_amount = player_input()
     player = Player(total_amount)
