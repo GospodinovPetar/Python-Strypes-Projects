@@ -55,6 +55,7 @@ dist/
 build/
 
 # Test Coverage
+.coverage
 coverage/
 *.lcov
 
@@ -77,6 +78,7 @@ Dockerfile
 
 
 # Other
+.pylintrc
 *.bak
 *.swp
 *.swo
