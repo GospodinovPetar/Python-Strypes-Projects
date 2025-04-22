@@ -392,7 +392,7 @@ def test_new_game():
 # Name                                   Stmts   Miss  Cover
 # ----------------------------------------------------------
 # projects/blackjack/computer.py             4      0   100%
-# projects/blackjack/main.py               117     13    89%
+# projects/blackjack/main.py               122      9    93%
 # projects/blackjack/player.py               5      0   100%
 # projects/blackjack/test_blackjack.py     143      0   100%
 # ----------------------------------------------------------
