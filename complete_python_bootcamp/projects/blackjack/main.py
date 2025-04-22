@@ -333,20 +333,7 @@ def game(player: Player, computer: Computer, betting_amount: float) -> str:
         # Use the handle_game_round function to process the outcome
         result_message = handle_game_round(result, player, computer)
 
-        while player_choice not in ("stand", "hit", "exit"):
-            print("Invalid input. Please choose 'stand', 'hit' or 'exit'.")
-            player_choice = (
-                input('Player chooses to "stand", "hit" or "exit": ').strip().lower()
-            )
-
-        if player_choice == "stand":
-            print(deal_card(computer, "Computer"))
-            print(f"Player points: {player.points}")
-        elif player_choice == "hit":
-            print(deal_card(player, "Player"))
-            print(deal_card(computer, "Computer"))
-        elif player_choice == "exit":
-            GAME_RUNNING = False
+        if result_message == "GAME OVER":
             break
 
     return "GAME OVER"
