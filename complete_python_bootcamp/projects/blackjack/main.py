@@ -248,6 +248,50 @@ def player_input() -> tuple[float, float]:
 
     return total, betting
 
+def handle_game_round(result: str, player: Player, computer: Computer) -> str:
+    """
+    Handles the decision-making process at the end of a game round.
+
+    This function is responsible for checking the game result, resetting the game state,
+    and processing the player's actions (stand, hit, exit) based on the outcome.
+
+    Parameters:
+        result (str): The result of the game round (e.g., "Game continues..", "Player wins!", "Computer wins!").
+        player (Player): The player entity.
+        computer (Computer): The computer entity.
+
+    Returns:
+        str: A message indicating the next step of the game (e.g., "New Game!", "GAME OVER").
+    """
+    if result != "Game continues..":
+        print(f"\nNew Game!")
+        print(deal_card(player, "Player"))
+        print(deal_card(computer, "Computer"))
+        return "New Game!"
+
+    # If the game continues, ask the player for their action (hit, stand, or exit)
+    player_choice: str = (
+        input('Player chooses to "stand", "hit", "exit": ').strip().lower()
+    )
+
+    while player_choice not in ("stand", "hit", "exit"):
+        print("Invalid input. Please choose 'stand', 'hit' or 'exit'.")
+        player_choice = (
+            input('Player chooses to "stand", "hit" or "exit": ').strip().lower()
+        )
+
+    if player_choice == "stand":
+        print(deal_card(computer, "Computer"))
+        print(f"Player points: {player.points}")
+    elif player_choice == "hit":
+        print(deal_card(player, "Player"))
+        print(deal_card(computer, "Computer"))
+    elif player_choice == "exit":
+        global GAME_RUNNING
+        GAME_RUNNING = False
+        return "GAME OVER"
+
+    return "Game continues.."
 
 def game(player: Player, computer: Computer, betting_amount: float) -> str:
     """
