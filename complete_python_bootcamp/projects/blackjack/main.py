@@ -303,9 +303,6 @@ def game(player: Player, computer: Computer, betting_amount: float) -> str:
                 input('Player chooses to "stand", "hit" or "exit": ').strip().lower()
             )
 
-        if player_choice not in ("stand", "hit", "exit"):
-            return "Invalid input. Please choose 'stand', 'hit' or 'exit'."  # Stop the game on invalid input
-
         if player_choice == "stand":
             print(deal_card(computer, "Computer"))
             print(f"Player points: {player.points}")

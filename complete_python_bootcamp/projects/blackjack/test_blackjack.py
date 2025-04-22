@@ -329,15 +329,21 @@ def test_invalid_player_input_stand_hit_exit():
     """
     Test that the game correctly handles invalid player input for choosing actions.
 
-    This test ensures that the game will prompt the player for a valid action when an invalid choice is entered.
+    This test ensures that if the player enters invalid input (not "stand", "hit", or "exit"),
+    the game prompts the player again for a valid action. Invalid inputs are mocked as 'ne'
+    and 'nqma kak' before the valid input 'hit' is provided.
     """
     player = Player(100)
     computer = Computer()
     betting_amount = 10  # Define betting amount
-    with patch("builtins.input", return_value="No"):  # Mock invalid input
+
+    # Mock invalid input followed by valid input
+    with patch(
+        "builtins.input", side_effect=["ne", "nqma kak", 'hit', 'exit']
+    ):  # Add a final valid input
         result = game(player, computer, betting_amount)  # Run the game
 
-    assert result == "Invalid input. Please choose 'stand', 'hit' or 'exit'."
+    assert result == "GAME OVER"
 
 
 def test_game_exit_if_player_says_exit():
@@ -380,8 +386,8 @@ def test_game_busts_after_hit():
 # Name                                   Stmts   Miss  Cover
 # ----------------------------------------------------------
 # projects/blackjack/computer.py             4      0   100%
-# projects/blackjack/main.py               119     15    87%
+# projects/blackjack/main.py               117     13    89%
 # projects/blackjack/player.py               5      0   100%
-# projects/blackjack/test_blackjack.py     144      0   100%
+# projects/blackjack/test_blackjack.py     143      0   100%
 # ----------------------------------------------------------
-# TOTAL                                    272     15    94%
+# TOTAL                                    269     13    95%
