@@ -2,6 +2,7 @@ from unittest.mock import patch
 import pytest
 from computer import Computer
 from player import Player
+from main import handle_game_round
 from main import (
     count_points,
     reset_points,
