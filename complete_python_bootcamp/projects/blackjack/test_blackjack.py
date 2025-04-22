@@ -1,7 +1,7 @@
+from unittest.mock import patch
 import pytest
 from computer import Computer
 from player import Player
-from unittest.mock import patch
 from main import (
     count_points,
     reset_points,
@@ -155,7 +155,6 @@ def test_game_outcome_player_with_negative_money():
 
 def test_deal_card_after_busting():
     player = Player(100)
-    computer = Computer()
     player.hand = [CARD_K, CARD_Q, CARD_2]
     result = deal_card(player, "Player")
     player.points = count_points(player.hand)
