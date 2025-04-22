@@ -339,7 +339,7 @@ def test_invalid_player_input_stand_hit_exit():
 
     # Mock invalid input followed by valid input
     with patch(
-        "builtins.input", side_effect=["ne", "nqma kak", "hit", "exit"]
+        "builtins.input", side_effect=["ne", "nqma kak", 'hit', 'exit']
     ):  # Add a final valid input
         result = game(player, computer, betting_amount)  # Run the game
 
