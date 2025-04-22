@@ -330,16 +330,8 @@ def game(player: Player, computer: Computer, betting_amount: float) -> str:
         result = game_outcome(betting_amount, computer, player)
         print(result)
 
-        if result != "Game continues..":
-            print(f"\nNew Game!")
-            print(deal_card(player, "Player"))
-            print(deal_card(computer, "Computer"))
-            continue
-
-        # If the game continues, ask the player for their action (hit, stand, or exit)
-        player_choice: str = (
-            input('Player chooses to "stand", "hit", "exit": ').strip().lower()
-        )
+        # Use the handle_game_round function to process the outcome
+        result_message = handle_game_round(result, player, computer)
 
         while player_choice not in ("stand", "hit", "exit"):
             print("Invalid input. Please choose 'stand', 'hit' or 'exit'.")
