@@ -198,7 +198,7 @@ def test_game_continues():
 
 
 # ========================
-# Edge Case and Invalid Inputs
+# Unique cases and Invalid Inputs
 # ========================
 
 
@@ -228,6 +228,16 @@ def test_deal_card_after_busting():
     player.points = count_points(player.hand)
     assert result == "Player busts! Points exceeded 21."
     assert player.points == 22
+
+
+def test_count_points_invalid_card():
+    """
+    Test that the count_points function raises an error for invalid card inputs.
+
+    This test ensures that if an invalid card (not in the deck) is passed to the function, a KeyError is raised.
+    """
+    with pytest.raises(KeyError):
+        count_points(["Z"])
 
 
 # ===========================
@@ -305,21 +315,6 @@ def test_betting_amount_lower_than_zero():
     computer = Computer()
     result = game_outcome(-10, computer, player)
     assert result == "Invalid amount. Please enter a positive number."
-
-
-# ========================
-# Tests for invalid card input
-# ========================
-
-
-def test_count_points_invalid_card():
-    """
-    Test that the count_points function raises an error for invalid card inputs.
-
-    This test ensures that if an invalid card (not in the deck) is passed to the function, a KeyError is raised.
-    """
-    with pytest.raises(KeyError):
-        count_points(["Z"])
 
 
 # ========================
