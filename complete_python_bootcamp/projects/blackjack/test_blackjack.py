@@ -236,9 +236,7 @@ def test_deal_card_after_busting():
 
 
 @patch("builtins.input", side_effect=["-34", "0", "100", "10"])
-def test_player_input_invalid_total_amount(
-    mock_input: patch,
-):
+def test_player_input_invalid_total_amount(mock_input: patch):
     """
     Test that the player input function handles invalid total amounts for the player.
 
@@ -250,9 +248,7 @@ def test_player_input_invalid_total_amount(
 
 
 @patch("builtins.input", side_effect=["100", "0", "10"])
-def test_player_input_invalid_betting_amount(
-    mock_input: patch,
-):
+def test_player_input_invalid_betting_amount(mock_input: patch):
     """
     Test that the player input function handles invalid betting amounts.
 
@@ -265,9 +261,7 @@ def test_player_input_invalid_betting_amount(
 
 
 @patch("builtins.input", side_effect=["100", "10"])
-def test_player_input_valid_inputs(
-    mock_input: patch,
-):
+def test_player_input_valid_inputs(mock_input: patch):
     """
     Test that the player input function correctly accepts valid inputs.
 
