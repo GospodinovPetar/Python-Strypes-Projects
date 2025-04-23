@@ -2,4 +2,4 @@
 
 Ако имате коментари относно кода ми, може да ми пишете на Petar Gospodinov в Тиймс, или тук в [Discussion](https://github.com/GospodinovPetar/Python-Strypes-Projects/discussions) :)
 
-TODO: tic_tac_toe unit testing, argparse CLI
+TODO: argparse CLI
