@@ -2,61 +2,59 @@ GAME_RUNNING: bool = True
 counter: int = 0
 
 
-def print_board() -> None:
+def print_board(board) -> str:
     """
-    Prints the current state of the playing board.
+    Returns the current state of the playing board as a string.
 
     The board is represented as a dictionary with keys for each cell (e.g., '1,1').
-    For each row (1 to 3), the function prints the cell values separated by vertical bars.
+    For each row (1 to 3), the function returns the cell values separated by vertical bars.
     Empty cells (with a value of None) are represented by a blank space.
 
     Returns:
-       None
+       str: The current board state as a string.
     """
-
-    global board
+    board_string = ""
     for row in range(1, 4):
-        print(
-            f"{board[f'{row},1'] or ' '} | {board[f'{row},2'] or ' '} | {board[f'{row},3'] or ' '}"
-        )
+        board_string += f"{board[f'{row},1'] or ' '} | {board[f'{row},2'] or ' '} | {board[f'{row},3'] or ' '}\n"
         if row < 3:
-            print("---------")
+            board_string += "---------\n"
+    return board_string.strip()
 
 
-def move_checker() -> None:
-    """ "
+def move_checker(move: str) -> str | None:
+    """
     Processes the current move and updates the board with either 'X' or 'O'.
 
     The function checks whether the global move (a string representing the chosen cell)
     is valid (i.e., it exists in the board and the cell is empty). Based on the global counter,
     it assigns 'O' when the counter is even and 'X' when the counter is odd.
+
     If the move is invalid or the cell is already occupied, it prompts the user for a new move
-    and calls itself recursively until a valid move is made.
+    until a valid move is made.
 
     Returns:
-       None
+        A message indicating whether the move was valid or not.
     """
-
     global counter
-    global move
-    if move in board and board[move] is None:
-        if counter % 2 == 0:
-            board[move] = "O"
+    global board
+    while True:
+        if move in board and board[move] is None:
+            # Valid move
+            if counter % 2 == 0:
+                board[move] = "O"
+            else:
+                board[move] = "X"
+            counter += 1
+            return print_board(board)
         else:
-            board[move] = "X"
-        counter += 1
-    else:
-        if move not in board:
-            print("Invalid move. Please enter a valid position.")
-            move = get_move()
-            move_checker()
-        else:
-            print("Cell is occupied. Please choose another.")
-            move = get_move()
-            move_checker()
+            # Invalid move (either outside the board or cell is occupied)
+            if move not in board:
+                return "Invalid move. Please enter a valid position."
+            else:
+                return "Cell is occupied. Please choose another."
 
 
-def check_winner(board: dict) -> bool:
+def check_winner(board: dict) -> bool | str | None:
     """
     Checks the board for a winning combination.
 
@@ -70,30 +68,46 @@ def check_winner(board: dict) -> bool:
     Returns:
         bool: True if a winning combination is present, otherwise False.
     """
+    global GAME_RUNNING
+    winner = False
 
     # Check rows
     if board["1,1"] == board["1,2"] == board["1,3"] and board["1,1"] is not None:
-        return True
+        winner = True
+
     elif board["2,1"] == board["2,2"] == board["2,3"] and board["2,1"] is not None:
-        return True
+        winner = True
+
     elif board["3,1"] == board["3,2"] == board["3,3"] and board["3,1"] is not None:
-        return True
+        winner = True
+
 
     # Check columns
     elif board["1,1"] == board["2,1"] == board["3,1"] and board["1,1"] is not None:
-        return True
+        winner = True
+
     elif board["1,2"] == board["2,2"] == board["3,2"] and board["1,2"] is not None:
-        return True
+        winner = True
+
     elif board["1,3"] == board["2,3"] == board["3,3"] and board["1,3"] is not None:
-        return True
+        winner = True
 
     # Check diagonals
     elif board["1,1"] == board["2,2"] == board["3,3"] and board["1,1"] is not None:
-        return True
-    elif board["3,1"] == board["2,2"] == board["1,3"] and board["3,1"] is not None:
-        return True
+        winner = True
 
-    return False
+    elif board["3,1"] == board["2,2"] == board["1,3"] and board["3,1"] is not None:
+        winner = True
+
+    if winner and counter != 9:
+        GAME_RUNNING = False
+        return f"{'X' if counter % 2 == 0 else 'O'} wins!"
+
+    elif counter == 9:
+        GAME_RUNNING = False
+        return "It's a draw!"
+
+    return ''
 
 
 def get_move() -> str | None:
@@ -106,12 +120,12 @@ def get_move() -> str | None:
     Returns:
         str: The move input provided by the current player.
     """
-
     global counter
     if counter % 2 == 0:
         return input("O enters a move: ")
     elif counter % 2 == 1 or counter == 1:
         return input("X enters a move: ")
+    return "Error: Invalid counter value. Please restart the game."
 
 
 board = {
@@ -126,19 +140,9 @@ board = {
     "3,3": None,
 }
 
-
-while GAME_RUNNING:
-
-    move = get_move()
-
-    move_checker()
-
-    print_board()
-
-    if check_winner(board):
-        print(f"{'X' if counter % 2 == 0 else 'O'} wins!")
-        GAME_RUNNING = False
-
-    elif counter == 9:
-        print("It's a draw!")
-        GAME_RUNNING = False
+if __name__ == "__main__":
+    while GAME_RUNNING:
+        move = get_move()
+        result = move_checker(move)
+        print(result)  # Print the result message of each move
+        print(check_winner(board))
