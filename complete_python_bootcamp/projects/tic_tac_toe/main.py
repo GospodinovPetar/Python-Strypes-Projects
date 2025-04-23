@@ -21,7 +21,7 @@ def print_board(board) -> str:
     return board_string.strip()
 
 
-def move_checker(move: str) -> str | None:
+def move_checker(move: str, board: dict) -> str | None:
     """
     Processes the current move and updates the board with either 'X' or 'O'.
 
@@ -36,7 +36,6 @@ def move_checker(move: str) -> str | None:
         A message indicating whether the move was valid or not.
     """
     global counter
-    global board
     while True:
         if move in board and board[move] is None:
             # Valid move
@@ -69,40 +68,51 @@ def check_winner(board: dict) -> bool | str | None:
         bool: True if a winning combination is present, otherwise False.
     """
     global GAME_RUNNING
-    winner = False
 
     # Check rows
     if board["1,1"] == board["1,2"] == board["1,3"] and board["1,1"] is not None:
-        winner = True
+        if counter != 9:
+            GAME_RUNNING = False
+            return f"{'X' if counter % 2 == 0 else 'O'} wins!"
 
     elif board["2,1"] == board["2,2"] == board["2,3"] and board["2,1"] is not None:
-        winner = True
+        if counter != 9:
+            GAME_RUNNING = False
+            return f"{'X' if counter % 2 == 0 else 'O'} wins!"
 
     elif board["3,1"] == board["3,2"] == board["3,3"] and board["3,1"] is not None:
-        winner = True
+        if counter != 9:
+            GAME_RUNNING = False
+            return f"{'X' if counter % 2 == 0 else 'O'} wins!"
 
     # Check columns
     elif board["1,1"] == board["2,1"] == board["3,1"] and board["1,1"] is not None:
-        winner = True
+        if counter != 9:
+            GAME_RUNNING = False
+            return f"{'X' if counter % 2 == 0 else 'O'} wins!"
 
     elif board["1,2"] == board["2,2"] == board["3,2"] and board["1,2"] is not None:
-        winner = True
+        if counter != 9:
+            GAME_RUNNING = False
+            return f"{'X' if counter % 2 == 0 else 'O'} wins!"
 
     elif board["1,3"] == board["2,3"] == board["3,3"] and board["1,3"] is not None:
-        winner = True
+        if counter != 9:
+            GAME_RUNNING = False
+            return f"{'X' if counter % 2 == 0 else 'O'} wins!"
 
     # Check diagonals
     elif board["1,1"] == board["2,2"] == board["3,3"] and board["1,1"] is not None:
-        winner = True
+        if counter != 9:
+            GAME_RUNNING = False
+            return f"{'X' if counter % 2 == 0 else 'O'} wins!"
 
     elif board["3,1"] == board["2,2"] == board["1,3"] and board["3,1"] is not None:
-        winner = True
+        if counter != 9:
+            GAME_RUNNING = False
+            return f"{'X' if counter % 2 == 0 else 'O'} wins!"
 
-    if winner and counter != 9:
-        GAME_RUNNING = False
-        return f"{'X' if counter % 2 == 0 else 'O'} wins!"
-
-    elif counter == 9:
+    if counter == 9:
         GAME_RUNNING = False
         return "It's a draw!"
 
@@ -139,9 +149,10 @@ board = {
     "3,3": None,
 }
 
+
 if __name__ == "__main__":
     while GAME_RUNNING:
         move = get_move()
-        result = move_checker(move)
+        result = move_checker(move, board)
         print(result)  # Print the result message of each move
         print(check_winner(board))
