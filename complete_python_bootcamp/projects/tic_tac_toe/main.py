@@ -1,5 +1,16 @@
 GAME_RUNNING: bool = True
 counter: int = 0
+board = {
+    "1,1": None,
+    "1,2": None,
+    "1,3": None,
+    "2,1": None,
+    "2,2": None,
+    "2,3": None,
+    "3,1": None,
+    "3,2": None,
+    "3,3": None,
+}
 
 
 def print_board(board) -> str:
@@ -132,22 +143,8 @@ def get_move() -> str | None:
     global counter
     if counter % 2 == 0:
         return input("O enters a move: ")
-    elif counter % 2 == 1 or counter == 1:
+    else:
         return input("X enters a move: ")
-    return "Error: Invalid counter value. Please restart the game."
-
-
-board = {
-    "1,1": None,
-    "1,2": None,
-    "1,3": None,
-    "2,1": None,
-    "2,2": None,
-    "2,3": None,
-    "3,1": None,
-    "3,2": None,
-    "3,3": None,
-}
 
 
 if __name__ == "__main__":
