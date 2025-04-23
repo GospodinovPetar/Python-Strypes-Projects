@@ -1,52 +1,57 @@
 from unittest.mock import patch
-from main import (check_winner, move_checker, get_move, board)
+from main import check_winner, move_checker, get_move, board
 
 
 def test_check_winner_on_first_row():
     board["1,1"] = "X"
     board["1,2"] = "X"
     board["1,3"] = "X"
-    assert check_winner(board) == 'X wins!'
+    assert check_winner(board) == "X wins!"
+
 
 def test_check_winner_on_second_row():
     board["2,1"] = "X"
     board["2,2"] = "X"
     board["2,3"] = "X"
-    assert check_winner(board) == 'X wins!'
+    assert check_winner(board) == "X wins!"
+
 
 def test_check_winner_on_third_row():
     board["3,1"] = "X"
     board["3,2"] = "X"
     board["3,3"] = "X"
-    assert check_winner(board) == 'X wins!'
+    assert check_winner(board) == "X wins!"
+
 
 def test_check_winner_on_first_column():
     board["1,1"] = "X"
     board["2,1"] = "X"
     board["3,1"] = "X"
-    assert check_winner(board) == 'X wins!'
+    assert check_winner(board) == "X wins!"
+
 
 def test_check_winner_on_second_column():
     board["1,2"] = "X"
     board["2,2"] = "X"
     board["3,2"] = "X"
-    assert check_winner(board) == 'X wins!'
+    assert check_winner(board) == "X wins!"
+
 
 def test_check_winner_on_third_column():
     board["1,3"] = "X"
     board["2,3"] = "X"
     board["3,3"] = "X"
-    assert check_winner(board) == 'X wins!'
+    assert check_winner(board) == "X wins!"
 
 
 def test_check_winner_on_diagonal():
     board["1,1"] = "X"
     board["2,2"] = "X"
     board["3,3"] = "X"
-    assert check_winner(board) == 'X wins!'
+    assert check_winner(board) == "X wins!"
 
 
-@patch('main.counter', 9)  # Patching the counter value to simulate a draw
+@patch("main.counter", 9)  # Patching the counter value to simulate a draw
 def test_draw():
     result = check_winner(board)
     assert result == "It's a draw!"
@@ -57,11 +62,14 @@ def test_invalid_move(mock_input: patch):
     """Test for invalid moves."""
     # First invalid move (4,1)
     result = move_checker(get_move())
-    assert result == "Invalid move. Please enter a valid position."  # Assert the message returned
+    assert (
+        result == "Invalid move. Please enter a valid position."
+    )  # Assert the message returned
 
     # Second invalid move (5,3)
     result = move_checker(get_move())
     assert result == "Invalid move. Please enter a valid position."
+
 
 # Name                  Stmts   Miss  Cover   Missing
 # ---------------------------------------------------

@@ -248,6 +248,7 @@ def player_input() -> tuple[float, float]:
 
     return total, betting
 
+
 def handle_game_round(result: str, player: Player, computer: Computer) -> str:
     """
     Handles the decision-making process at the end of a game round.
@@ -293,6 +294,7 @@ def handle_game_round(result: str, player: Player, computer: Computer) -> str:
 
     return "Game continues.."
 
+
 def game(player: Player, computer: Computer, betting_amount: float) -> str:
     """
     Runs the game loop where the player competes against the computer, managing rounds and actions.
@@ -337,7 +339,6 @@ def game(player: Player, computer: Computer, betting_amount: float) -> str:
             break
 
     return "GAME OVER"
-
 
 
 if __name__ == "__main__":

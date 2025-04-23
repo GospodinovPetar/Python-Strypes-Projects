@@ -234,8 +234,11 @@ def test_deal_card_after_busting():
 # Tests for player_input logic
 # ===========================
 
+
 @patch("builtins.input", side_effect=["-34", "0", "100", "10"])
-def test_player_input_invalid_total_amount(mock_input: patch,):
+def test_player_input_invalid_total_amount(
+    mock_input: patch,
+):
     """
     Test that the player input function handles invalid total amounts for the player.
 
@@ -245,8 +248,11 @@ def test_player_input_invalid_total_amount(mock_input: patch,):
     assert total_amount == 100
     assert betting_amount == 10
 
+
 @patch("builtins.input", side_effect=["100", "0", "10"])
-def test_player_input_invalid_betting_amount(mock_input: patch,):
+def test_player_input_invalid_betting_amount(
+    mock_input: patch,
+):
     """
     Test that the player input function handles invalid betting amounts.
 
@@ -257,8 +263,11 @@ def test_player_input_invalid_betting_amount(mock_input: patch,):
     assert total_amount == 100
     assert betting_amount == 10
 
+
 @patch("builtins.input", side_effect=["100", "10"])
-def test_player_input_valid_inputs(mock_input: patch, ):
+def test_player_input_valid_inputs(
+    mock_input: patch,
+):
     """
     Test that the player input function correctly accepts valid inputs.
 
@@ -267,6 +276,7 @@ def test_player_input_valid_inputs(mock_input: patch, ):
     total_amount, betting_amount = player_input()
     assert total_amount == 100
     assert betting_amount == 10
+
 
 @patch("builtins.input", side_effect=["L", "L", "10"])
 def test_invalid_input_key_instead_of_int(mock_input: patch):
@@ -322,6 +332,7 @@ def test_count_points_invalid_card():
 # Tests for game()
 # ========================
 
+
 @patch("builtins.input", side_effect=["ne", "nqma kak", "hit", "exit"])
 def test_invalid_player_input_stand_hit_exit(mock_input: patch):
     """
@@ -338,7 +349,8 @@ def test_invalid_player_input_stand_hit_exit(mock_input: patch):
 
     assert result == "GAME OVER"
 
-@patch("builtins.input", side_effect = ["exit"])
+
+@patch("builtins.input", side_effect=["exit"])
 def test_game_exit_if_player_says_exit(mock_input: patch):
     """
     Test that the game correctly exits when the player chooses to exit.
@@ -353,7 +365,8 @@ def test_game_exit_if_player_says_exit(mock_input: patch):
 
     assert result == "GAME OVER"
 
-@patch("builtins.input", return_value = ["hit"])
+
+@patch("builtins.input", return_value=["hit"])
 def test_game_busts_after_hit(mock_input: patch):
     """
     Test that the game correctly handles a bust after a player hits.
@@ -371,12 +384,14 @@ def test_game_busts_after_hit(mock_input: patch):
 
     assert result == "Player busts! Points exceeded 21."
 
+
 def test_new_game():
     player = Player(100)
     computer = Computer()
 
-    result = handle_game_round('test', player, computer)
+    result = handle_game_round("test", player, computer)
     assert result == "New Game!"
+
 
 # Name                                   Stmts   Miss  Cover
 # ----------------------------------------------------------

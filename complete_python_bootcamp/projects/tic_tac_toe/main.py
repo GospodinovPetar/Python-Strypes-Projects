@@ -81,7 +81,6 @@ def check_winner(board: dict) -> bool | str | None:
     elif board["3,1"] == board["3,2"] == board["3,3"] and board["3,1"] is not None:
         winner = True
 
-
     # Check columns
     elif board["1,1"] == board["2,1"] == board["3,1"] and board["1,1"] is not None:
         winner = True
@@ -107,7 +106,7 @@ def check_winner(board: dict) -> bool | str | None:
         GAME_RUNNING = False
         return "It's a draw!"
 
-    return ''
+    return ""
 
 
 def get_move() -> str | None:
