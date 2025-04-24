@@ -378,7 +378,7 @@ def test_new_game():
     """
     Tests the initialization of a new game.
 
-    This test verifies that the function should return "New Game!" when the old game has finished and a new one is initialized, that happens 
+    This test verifies that the function should return "New Game!" when the old game has finished and a new one is initialized, that happens
     when the given parameter is different than "Game continues..".
     """
 

@@ -1,10 +1,12 @@
+from django.core.handlers.wsgi import WSGIRequest
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Sum, QuerySet
 from .forms import ExpensesForm, IncomeForm
 from .models import Expenses, Income
 
 
-def home(request):
+def home(request: WSGIRequest) -> HttpResponse:
     expenses: QuerySet = Expenses.objects.all().order_by("date")
     incomes: QuerySet = Income.objects.all().order_by("date")
 
@@ -47,7 +49,7 @@ def home(request):
     return render(request, "home.html", context)
 
 
-def add_expense(request):
+def add_expense(request: WSGIRequest) -> HttpResponse:
     """
     Create a new expense entry.
 
@@ -64,7 +66,7 @@ def add_expense(request):
     return render(request, "home.html", {"form": form})
 
 
-def expenses_list(request):
+def expenses_list(request: WSGIRequest) -> HttpResponse:
     """
     List all expense entries.
 
@@ -74,7 +76,7 @@ def expenses_list(request):
     return render(request, "home.html", {"expenses": expenses})
 
 
-def delete_expense(request, expense_id):
+def delete_expense(request: WSGIRequest, expense_id: int) -> HttpResponse:
     """
     Delete the expense entry specified by expense_id.
 
@@ -87,7 +89,7 @@ def delete_expense(request, expense_id):
     return render(request, "home.html", {"expense": expense})
 
 
-def add_income(request):
+def add_income(request: WSGIRequest) -> HttpResponse:
     """
     Create a new income entry.
 
@@ -104,7 +106,7 @@ def add_income(request):
     return render(request, "home.html", {"form": form})
 
 
-def delete_income(request, income_id):
+def delete_income(request: WSGIRequest, income_id: int) -> HttpResponse:
     """
     Delete the income entry specified by income_id.
 
