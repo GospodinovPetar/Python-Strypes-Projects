@@ -146,3 +146,78 @@ class Car:
 car = Car(PetrolEngine())
 car.drive()  # Output: Starting petrol engine
 ```
+## 7. Composite
+- **Purpose**: Composes objects into tree-like structures to represent part-whole hierarchies.
+- **When to use**: When you want to treat individual objects and compositions of objects uniformly.
+- **Key Concept**: A common interface for both single objects and compositions.
+```python
+class Component:
+    def operation(self):
+        pass
+
+class Leaf(Component):
+    def operation(self):
+        print("Leaf operation")
+
+class Composite(Component):
+    def __init__(self):
+        self.children = []
+
+    def add(self, component):
+        self.children.append(component)
+
+    def operation(self):
+        for child in self.children:
+            child.operation()
+
+leaf = Leaf()
+composite = Composite()
+composite.add(leaf)
+composite.operation()  # Output: Leaf operation
+```
+## 8. Decorator
+- **Purpose**: Allows you to add behavior to an object dynamically.
+- **When to use**: When you want to extend the functionality of objects in a flexible and reusable way.
+- **Key Concept**: A decorator class that wraps the original object and adds new functionality.
+```python
+class Car:
+    def drive(self):
+        print("Driving a car")
+
+class CarDecorator:
+    def __init__(self, car: Car):
+        self.car = car
+
+    def drive(self):
+        self.car.drive()
+        print("Adding a turbo boost!")
+
+car = Car()
+decorated_car = CarDecorator(car)
+decorated_car.drive()  # Output: Driving a car
+```
+## 9. Façade
+- **Purpose**: Provides a simplified interface to a complex subsystem.
+- **When to use**: When you want to provide a simple interface to a complex system.
+- **Key Concept**: A facade class that delegates client requests to the appropriate subsystem components.
+```python
+class Engine:
+    def start(self):
+        print("Engine started")
+
+class Lights:
+    def turn_on(self):
+        print("Lights turned on")
+
+class CarFacade:
+    def __init__(self):
+        self.engine = Engine()
+        self.lights = Lights()
+
+    def start_car(self):
+        self.engine.start()
+        self.lights.turn_on()
+
+car = CarFacade()
+car.start_car()  # Output: Engine started
+```
