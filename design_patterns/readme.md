@@ -448,3 +448,148 @@ colleague1.send("Hello, Colleague 2")
 # Output: Colleague 1 sends: Hello, Colleague 2
 # Colleague 2 receives: Hello, Colleague 2
 ```
+## 17. Memento
+- **Purpose**: Captures and externalizes an object's state so that it can be restored later.
+- **When to use**: When you need to implement undo functionality or save the state of an object.
+- **Key Concept**: A memento object that stores the state and an originator object that manages the state.
+```python
+class Memento:
+    def __init__(self, state):
+        self.state = state
+
+class Originator:
+    def __init__(self, state):
+        self.state = state
+    
+    def save_state(self):
+        return Memento(self.state)
+    
+    def restore_state(self, memento):
+        self.state = memento.state
+    
+    def __str__(self):
+        return f"Originator's current state: {self.state}"
+
+# Usage
+originator = Originator("State1")
+print(originator)
+memento = originator.save_state()
+originator.state = "State2"
+print(originator)
+originator.restore_state(memento)
+print(originator)  # Output: Originator's current state: State1
+```
+## 18. Observer
+- **Purpose**: Allows an object to notify other objects when its state changes.
+- **When to use**: When you have one-to-many dependencies between objects.
+- **Key Concept**: Observers that register with a subject to receive notifications.
+```python
+class Observer:
+    def update(self, state):
+        pass
+
+class ConcreteObserver(Observer):
+    def __init__(self, name):
+        self.name = name
+    
+    def update(self, state):
+        print(f"{self.name} received update: {state}")
+
+class Subject:
+    def __init__(self):
+        self._observers = []
+
+    def add_observer(self, observer):
+        self._observers.append(observer)
+
+    def remove_observer(self, observer):
+        self._observers.remove(observer)
+
+    def notify_observers(self, state):
+        for observer in self._observers:
+            observer.update(state)
+
+# Usage
+subject = Subject()
+observer1 = ConcreteObserver("Observer 1")
+observer2 = ConcreteObserver("Observer 2")
+subject.add_observer(observer1)
+subject.add_observer(observer2)
+
+subject.notify_observers("New State")  
+# Output:
+# Observer 1 received update: New State
+# Observer 2 received update: New State
+```
+## 19. State
+- **Purpose**: Allows an object to alter its behavior when its internal state changes.
+- **When to use**: When an object has different behaviors based on its internal state.
+- **Key Concept**: A state object that encapsulates the state-specific behavior.
+```python
+class State:
+    def handle(self):
+        pass
+
+class ConcreteStateA(State):
+    def handle(self):
+        print("State A handling the request")
+
+class ConcreteStateB(State):
+    def handle(self):
+        print("State B handling the request")
+
+class Context:
+    def __init__(self):
+        self.state = None
+
+    def set_state(self, state):
+        self.state = state
+
+    def request(self):
+        self.state.handle()
+
+# Usage
+context = Context()
+state_a = ConcreteStateA()
+state_b = ConcreteStateB()
+
+context.set_state(state_a)
+context.request()  # Output: State A handling the request
+
+context.set_state(state_b)
+context.request()  # Output: State B handling the request
+```
+## 20. Strategy
+- **Purpose**: Defines a family of algorithms and makes them interchangeable at runtime.
+- **When to use**: When you want to choose an algorithm at runtime and avoid hard-coding it.
+- **Key Concept**: A strategy interface and concrete strategy classes.
+```python
+class Strategy:
+    def execute(self, data):
+        pass
+
+class ConcreteStrategyA(Strategy):
+    def execute(self, data):
+        return f"Strategy A: {data}"
+
+class ConcreteStrategyB(Strategy):
+    def execute(self, data):
+        return f"Strategy B: {data}"
+
+class Context:
+    def __init__(self, strategy):
+        self.strategy = strategy
+    
+    def set_strategy(self, strategy):
+        self.strategy = strategy
+    
+    def execute_strategy(self, data):
+        return self.strategy.execute(data)
+
+# Usage
+context = Context(ConcreteStrategyA())
+print(context.execute_strategy("Test"))  # Output: Strategy A: Test
+
+context.set_strategy(ConcreteStrategyB())
+print(context.execute_strategy("Test"))  # Output: Strategy B: Test
+```
