@@ -295,3 +295,156 @@ class ConcreteHandlerB(Handler):
 handler_chain = ConcreteHandlerA(ConcreteHandlerB())
 handler_chain.handle("A")  # Output: Handler A processed the request
 ```
+## 13. Command
+- **Purpose**: Encapsulates a request as an object, allowing you to parameterize clients with queues, requests, and operations.
+- **When to use**: When you want to decouple the sender and receiver of a request.
+- **Key Concept**: Command objects that encapsulate actions.
+### Example:
+```python
+class Command:
+    def execute(self):
+        pass
+
+class LightOnCommand(Command):
+    def __init__(self, light):
+        self.light = light
+    
+    def execute(self):
+        self.light.turn_on()
+
+class Light:
+    def turn_on(self):
+        print("Light is on")
+
+class RemoteControl:
+    def __init__(self):
+        self.command = None
+
+    def set_command(self, command):
+        self.command = command
+    
+    def press_button(self):
+        self.command.execute()
+
+light = Light()
+light_on = LightOnCommand(light)
+remote = RemoteControl()
+remote.set_command(light_on)
+remote.press_button()  # Output: Light is on
+```
+## 14. Interpreter
+- **Purpose**: Defines a grammatical representation for a language and an interpreter to interpret sentences in that language.
+- **When to use**: When you have a language to interpret (e.g., expressions or command syntax).
+- **Key Concept**: An abstract syntax tree (AST) and an interpreter class.
+```python
+class Expression:
+    def interpret(self, context):
+        pass
+
+class TerminalExpression(Expression):
+    def __init__(self, data):
+        self.data = data
+
+    def interpret(self, context):
+        return self.data in context
+
+class OrExpression(Expression):
+    def __init__(self, expr1, expr2):
+        self.expr1 = expr1
+        self.expr2 = expr2
+
+    def interpret(self, context):
+        return self.expr1.interpret(context) or self.expr2.interpret(context)
+
+# Usage
+context = "Hello World"
+expr1 = TerminalExpression("Hello")
+expr2 = TerminalExpression("Hi")
+or_expr = OrExpression(expr1, expr2)
+print(or_expr.interpret(context))  # Output: True (since "Hello" is in context)
+```
+## 15. Iterator
+- **Purpose**: Provides a way to access elements of a collection without exposing its underlying representation.
+- **When to use**: When you want to provide a way to iterate over elements of a collection.
+- **Key Concept**: An iterator object that keeps track of the position in the collection.
+```python
+class ListIterator:
+    def __init__(self, collection):
+        self.collection = collection
+        self.index = 0
+
+    def has_next(self):
+        return self.index < len(self.collection)
+
+    def next(self):
+        item = self.collection[self.index]
+        self.index += 1
+        return item
+
+class Collection:
+    def __init__(self):
+        self.items = []
+    
+    def add(self, item):
+        self.items.append(item)
+
+    def iterator(self):
+        return ListIterator(self.items)
+
+# Usage
+collection = Collection()
+collection.add("Item 1")
+collection.add("Item 2")
+iterator = collection.iterator()
+
+while iterator.has_next():
+    print(iterator.next())
+# Output:
+# Item 1
+# Item 2
+```
+## 16. Mediator
+- **Purpose**: Allows communication between objects without them referring to each other explicitly.
+- **When to use**: When you need to reduce the dependencies between interacting objects.
+- **Key Concept**: A mediator class that coordinates the interactions between objects.
+```python
+class Mediator:
+    def send(self, message, colleague):
+        pass
+
+class ConcreteMediator(Mediator):
+    def __init__(self, colleague1, colleague2):
+        self.colleague1 = colleague1
+        self.colleague2 = colleague2
+        self.colleague1.set_mediator(self)
+        self.colleague2.set_mediator(self)
+
+    def send(self, message, colleague):
+        if colleague == self.colleague1:
+            self.colleague2.receive(message)
+        elif colleague == self.colleague2:
+            self.colleague1.receive(message)
+
+class Colleague:
+    def __init__(self, name):
+        self.name = name
+        self.mediator = None
+
+    def set_mediator(self, mediator):
+        self.mediator = mediator
+
+    def send(self, message):
+        print(f"{self.name} sends: {message}")
+        self.mediator.send(message, self)
+
+    def receive(self, message):
+        print(f"{self.name} receives: {message}")
+
+colleague1 = Colleague("Colleague 1")
+colleague2 = Colleague("Colleague 2")
+mediator = ConcreteMediator(colleague1, colleague2)
+
+colleague1.send("Hello, Colleague 2")  
+# Output: Colleague 1 sends: Hello, Colleague 2
+# Colleague 2 receives: Hello, Colleague 2
+```
