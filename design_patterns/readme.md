@@ -221,3 +221,77 @@ class CarFacade:
 car = CarFacade()
 car.start_car()  # Output: Engine started
 ```
+## 10. Flyweight
+- **Purpose**: Reduces the cost of creating and maintaining a large number of similar objects by sharing common parts.
+- **When to use**: When there are a large number of fine-grained objects that share the same state.
+- **Key Concept**: Shared immutable state and the use of a factory to manage shared instances.
+```python
+class Flyweight:
+    def __init__(self, state):
+        self.state = state
+
+class FlyweightFactory:
+    _flyweights = {}
+
+    @staticmethod
+    def get_flyweight(state):
+        if state not in FlyweightFactory._flyweights:
+            FlyweightFactory._flyweights[state] = Flyweight(state)
+        return FlyweightFactory._flyweights[state]
+
+flyweight1 = FlyweightFactory.get_flyweight("State1")
+flyweight2 = FlyweightFactory.get_flyweight("State1")
+print(flyweight1 is flyweight2)  # Output: True
+```
+## 11. Proxy
+- **Purpose**: Provides a surrogate or placeholder for another object.
+- **When to use**: When you need to control access to an object or add additional functionality.
+- **Key Concept**: A proxy class that controls access to the real object.
+```python
+class RealSubject:
+    def request(self):
+        print("Real subject handling request")
+
+class Proxy:
+    def __init__(self, real_subject):
+        self.real_subject = real_subject
+
+    def request(self):
+        print("Proxy handling request")
+        self.real_subject.request()
+
+real_subject = RealSubject()
+proxy = Proxy(real_subject)
+proxy.request()  # Output: Proxy handling request
+                 # Real subject handling request
+```
+## 12. Chain of Responsobility
+- **Purpose**: Allows a request to be passed along a chain of handlers, where each handler can either process the request or pass it on.
+- **When to use**: When you have a chain of objects that can handle a request in a flexible way.
+- **Key Concept**: A chain of handler objects, each with a reference to the next.
+```python
+class Handler:
+    def __init__(self, successor=None):
+        self.successor = successor
+
+    def handle(self, request):
+        if self.successor:
+            self.successor.handle(request)
+
+class ConcreteHandlerA(Handler):
+    def handle(self, request):
+        if request == "A":
+            print("Handler A processed the request")
+        elif self.successor:
+            self.successor.handle(request)
+
+class ConcreteHandlerB(Handler):
+    def handle(self, request):
+        if request == "B":
+            print("Handler B processed the request")
+        elif self.successor:
+            self.successor.handle(request)
+
+handler_chain = ConcreteHandlerA(ConcreteHandlerB())
+handler_chain.handle("A")  # Output: Handler A processed the request
+```
